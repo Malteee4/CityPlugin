@@ -4,6 +4,7 @@ import com.destroystokyo.paper.MaterialTags;
 import de.malteee.citysystem.CitySystem;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.block.data.type.Chest;
@@ -237,7 +238,7 @@ public class ShopSign implements Listener {
                             Location l = new Location(sign.getLocation().getWorld(),sign.getLocation().getBlockX(),sign.getLocation().getBlockY() - 1,sign.getLocation().getBlockZ());
                             Chest chest = (Chest) l.getBlock().getState();
                             boolean wirklichVoll = true;
-                            if(chest.getInventory().firstEmpty() == -1) {
+                            if(chest.getInventory.firstEmpty() == -1) {
                                 for(ItemStack i : chest.getInventory().getContents()) {
                                     if(i.getType() == item.getType() && i.getAmount() + menge <= 64) {
                                         wirklichVoll = false;
