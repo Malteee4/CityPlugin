@@ -3,10 +3,13 @@ package de.malteee.citysystem.utilities;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.ArrayList;
 
-public class Area {
+public class Area implements Listener {
 
     private final Location loc1, loc2;
     private final int xMax, xMin, yMax, yMin, zMax, zMin;
@@ -64,5 +67,11 @@ public class Area {
     public boolean isPlayerIn(Player player) {
         Location plLoc = player.getLocation();
         return partOf(plLoc);
+    }
+
+    @EventHandler
+    public void handlePlayerInteract(PlayerInteractEvent event) {
+        Player player = event.getPlayer();
+
     }
 }

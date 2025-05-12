@@ -2,6 +2,7 @@ package de.malteee.citysystem.utilities;
 
 import com.destroystokyo.paper.MaterialTags;
 import de.malteee.citysystem.CitySystem;
+import de.malteee.citysystem.core.CityPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -60,6 +61,7 @@ public class ShopSign implements Listener {
     @EventHandler
     public void onSignClick(PlayerInteractEvent e) {
         Player p = e.getPlayer();
+        CityPlayer cPlayer = CitySystem.getCityPlayer(p);
         if(e.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
             if(e.getClickedBlock().getType() == (Material.OAK_SIGN) || e.getClickedBlock().getType() == (Material.BIRCH_WALL_SIGN) || e.getClickedBlock().getType() == (Material.BIRCH_SIGN) || e.getClickedBlock().getType() == (Material.OAK_WALL_SIGN)) {
                 Sign sign = (Sign) e.getClickedBlock().getState();
@@ -72,7 +74,7 @@ public class ShopSign implements Listener {
                                 sign.setLine(0, "§l"+hand.getAmount()+" "+sign.getLine(0));
                                 sign.setLine(2, "§e" + hand.getType().toString());
                                 sign.update();
-                                p.sendMessage("�l�aShopschild erfolgreich fertiggestellt!");
+                                p.sendMessage("§l§aShopschild erfolgreich fertiggestellt!");
                                 item.put(p.getName(), false);
                                 CitySystem.getPlugin().saveConfig();
                             }else {
@@ -80,7 +82,7 @@ public class ShopSign implements Listener {
                         }else {
                         }
                     }else if(sign.getLine(1).contains("B") && sign.getLine(1).contains("S")) {
-                        p.sendMessage("�cSorry aber derzeit d�rfen Shopschilder noch nicht eine kaufen und gleichzeitig auch eine verkaufen Funktion besitzen!");
+                        p.sendMessage("§cSorry aber derzeit dürfen Shopschilder noch nicht eine kaufen und gleichzeitig auch eine verkaufen Funktion besitzen!");
                     }
                 }else {
                     if(sign.getLine(0).contains("|[Shop]|")) {
@@ -203,6 +205,7 @@ public class ShopSign implements Listener {
                 }
             }else {
             }
+            /*  buying            */
         }else if(e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
             if(e.getClickedBlock().getType() == (Material.OAK_SIGN) || e.getClickedBlock().getType() == (Material.OAK_WALL_SIGN)|| e.getClickedBlock().getType() == (Material.BIRCH_WALL_SIGN) || e.getClickedBlock().getType() == (Material.BIRCH_SIGN)) {
                 Sign sign = (Sign) e.getClickedBlock().getState();
