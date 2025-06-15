@@ -14,6 +14,8 @@ public class Database {
             String connectionUrl ="jdbc:sqlite:" + filename;
             con = DriverManager.getConnection(connectionUrl);
             System.out.println("Sqlite connected!");
+            con.prepareStatement("CREATE TABLE IF NOT EXISTS tbl_properties(CODE varchar(20), VALUE varchar(60))").execute();
+            //con.prepareStatement("CREATE TABLE IF NOT EXISTS tbl_players()").execute();
             try {
                 Thread.sleep(200);
             } catch (InterruptedException e) {

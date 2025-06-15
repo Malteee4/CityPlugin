@@ -1,0 +1,15 @@
+name: CitySystem
+version: 0.1
+main: de.malteee.citysystem.CitySystem
+author: Malteee
+api-version: 1.21
+
+commands:
+  spawn:
+    description: teleports you to the spawn
+  setSpawn:
+    description: sets the spawn
+  breakShop:
+    description: let's you break a shop
+  world:
+    description: world
