@@ -13,3 +13,7 @@ commands:
     description: let's you break a shop
   world:
     description: world
+  money:
+    description: shows you your balance
+  home:
+    description: to set a home and teleport to it

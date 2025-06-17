@@ -7,10 +7,9 @@ import de.malteee.citysystem.database.Database;
 public class Konto {
 
     private int money;
-    private Database db;
 
-    public Konto() {
-        this.db = CitySystem.getDatabase();
+    public Konto(int balance) {
+        this.money = balance;
 
     }
 
@@ -32,6 +31,10 @@ public class Konto {
     }
 
     private void save()  {
+
+    }
+
+    private void transfer(Konto receiver) {
 
     }
 }
