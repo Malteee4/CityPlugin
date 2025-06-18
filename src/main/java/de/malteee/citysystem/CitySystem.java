@@ -1,6 +1,8 @@
 package de.malteee.citysystem;
 
-import de.malteee.citysystem.commands.*;
+import de.malteee.citysystem.commands_admin.BreakShopCommand;
+import de.malteee.citysystem.commands_admin.SetWorldSpawnCommand;
+import de.malteee.citysystem.commands_general.*;
 import de.malteee.citysystem.core.CityPlayer;
 import de.malteee.citysystem.database.Database;
 import de.malteee.citysystem.utilities.ShopSign;
@@ -33,6 +35,7 @@ public class CitySystem extends JavaPlugin {
 
     public static World spawnWorld = Bukkit.getWorld("world");
     public static World mainWorld = Bukkit.getWorld("mainWorld");
+    public static World farmWorld = Bukkit.getWorld("farmWorld");
 
     private List<String> maps = getConfig().getStringList("worlds");
 
@@ -53,6 +56,7 @@ public class CitySystem extends JavaPlugin {
         getCommand("world").setExecutor(new WorldCreation());
         getCommand("money").setExecutor(new MoneyCommand());
         getCommand("home").setExecutor(new HomeCommand());
+        getCommand("farmWorld").setExecutor(new FarmworldCommand());
 
         for(int i = 0; i<maps.size(); i++) {
             WorldCreator w = (WorldCreator) new WorldCreator(maps.get(i)).type(WorldType.NORMAL);
@@ -64,11 +68,15 @@ public class CitySystem extends JavaPlugin {
             ResultSet rs = db.getCon().prepareStatement("SELECT VALUE FROM tbl_properties WHERE CODE='worldspawn'").executeQuery();
             while (rs.next()) {
                 String loc = rs.getString("VALUE");
-                WorldSpawnCommand.worldSpawn = Tools.getLocFromString(loc, this);
+                WorldSpawnCommand.worldSpawn.put(spawnWorld, Tools.getLocFromString(loc, this));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        Bukkit.getScheduler().scheduleSyncDelayedTask(this, () -> {
+            mainWorld = Bukkit.getWorld("mainWorld");
+            farmWorld = Bukkit.getWorld("farmWorld");
+        }, 160);
     }
 
     public void onDisable() {

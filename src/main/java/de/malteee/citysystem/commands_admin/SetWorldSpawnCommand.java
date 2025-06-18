@@ -1,8 +1,8 @@
-package de.malteee.citysystem.commands;
+package de.malteee.citysystem.commands_admin;
 
 import de.malteee.citysystem.CitySystem;
+import de.malteee.citysystem.commands_general.WorldSpawnCommand;
 import de.malteee.citysystem.utilities.Tools;
-import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -22,7 +22,7 @@ public class SetWorldSpawnCommand implements CommandExecutor {
             }else {
                 CitySystem.getDatabase().getCon().prepareStatement("UPDATE tbl_properties SET VALUE='" + location + "'").execute();
             }
-            WorldSpawnCommand.worldSpawn = player.getLocation();
+            WorldSpawnCommand.worldSpawn.put(player.getWorld(), player.getLocation());
         } catch (Exception e) {
             e.printStackTrace();
         }

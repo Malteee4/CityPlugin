@@ -1,4 +1,4 @@
-package de.malteee.citysystem.commands;
+package de.malteee.citysystem.commands_general;
 
 import de.malteee.citysystem.CitySystem;
 import de.malteee.citysystem.core.CityPlayer;

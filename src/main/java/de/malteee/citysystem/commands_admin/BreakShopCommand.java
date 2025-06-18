@@ -1,4 +1,4 @@
-package de.malteee.citysystem.commands;
+package de.malteee.citysystem.commands_admin;
 
 import java.util.HashMap;
 

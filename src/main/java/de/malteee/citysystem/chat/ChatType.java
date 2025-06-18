@@ -5,6 +5,8 @@ public enum ChatType {
     GLOBAL,
     TRADE,
     SUPPORT,
-    PRIVATE
+    PRIVATE,
+    ENGLISH,
+    GERMAN
 
 }
