@@ -16,6 +16,7 @@ public class Database {
             System.out.println("Sqlite connected!");
             con.prepareStatement("CREATE TABLE IF NOT EXISTS tbl_properties(CODE varchar(20), VALUE varchar(60))").execute();
             //con.prepareStatement("CREATE TABLE IF NOT EXISTS tbl_players()").execute();
+            //con.prepareStatement("CREATE TABLE IF NOT EXISTS tbl_player_stats").execute();
             try {
                 Thread.sleep(200);
             } catch (InterruptedException e) {

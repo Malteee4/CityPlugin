@@ -1,5 +1,7 @@
 package de.malteee.citysystem.utilities;
 
+import de.malteee.citysystem.core.City;
+import de.malteee.citysystem.core.Plot;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -14,16 +16,30 @@ public class Area implements Listener {
     private final Location loc1, loc2;
     private final int xMax, xMin, yMax, yMin, zMax, zMin;
     private final String id;
+    private final ArrayList<SuperiorArea> superiorAreas = new ArrayList<>();
+    private City city;
+    private Plot plot;
+    private final AreaType type;
 
-    public Area(Location loc1, Location loc2) {
+    public Area(Location loc1, Location loc2, AreaType type) {
         this.loc1 = loc1;
         this.loc2 = loc2;
+        this.type = type;
         id = "AREA-" + loc1.getBlockX() + "-" + loc1.getBlockY() + "-" + loc1.getBlockZ();
 
         xMax = Math.max(loc1.getBlockX(), loc2.getBlockX()); xMin = Math.min(loc1.getBlockX(), loc2.getBlockX());
         yMax = Math.max(loc1.getBlockY(), loc2.getBlockY()); yMin = Math.min(loc1.getBlockY(), loc2.getBlockY());
         zMax = Math.max(loc1.getBlockZ(), loc2.getBlockZ()); zMin = Math.min(loc1.getBlockZ(), loc2.getBlockZ());
     }
+    public Area(Location loc1, Location loc2, AreaType type, Plot plot) {
+        this(loc1, loc2, type);
+        this.plot = plot;
+    }
+    public Area(Location loc1, Location loc2, AreaType type, City city) {
+        this(loc1, loc2, type);
+        this.city = city;
+    }
+
 
     public boolean partOf(Location loc) {
         return ((loc.getBlockX() <= xMax && loc.getBlockX() >= xMin)
@@ -64,6 +80,18 @@ public class Area implements Listener {
         return id;
     }
 
+    public City getCity() {
+        return city;
+    }
+
+    public Plot getPlot() {
+        return plot;
+    }
+
+    public AreaType getType() {
+        return type;
+    }
+
     public boolean isPlayerIn(Player player) {
         Location plLoc = player.getLocation();
         return partOf(plLoc);
@@ -73,5 +101,10 @@ public class Area implements Listener {
     public void handlePlayerInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
 
+    }
+    public enum AreaType {
+        SUPERIOR,
+        CITY,
+        PLOT
     }
 }

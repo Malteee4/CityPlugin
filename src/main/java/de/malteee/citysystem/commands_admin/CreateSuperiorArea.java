@@ -1,0 +1,59 @@
+package de.malteee.citysystem.commands_admin;
+
+import de.malteee.citysystem.CitySystem;
+import de.malteee.citysystem.utilities.Area;
+import de.malteee.citysystem.utilities.AreaChecker;
+import de.malteee.citysystem.utilities.SuperiorArea;
+import org.bukkit.Location;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+public class CreateSuperiorArea implements CommandExecutor {
+
+    private Location loc1, loc2;
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (!(sender instanceof Player player)) return false;
+        if (args.length != 1) return false;
+        switch (args[0].toLowerCase()) {
+            case "set1" -> {
+                if(player.getTargetBlockExact(10) == null) return false;
+                loc1 = player.getTargetBlockExact(10).getLocation();
+                player.sendMessage("§aLocation 1 set!");
+            }
+            case "set2" -> {
+                if(player.getTargetBlockExact(10) == null) return false;
+                loc2 = player.getTargetBlockExact(10).getLocation();
+                player.sendMessage("§aLocation 2 set!");
+            }
+            case "create" -> {
+                if (loc1 != null && loc2 != null) {
+                    SuperiorArea area = new SuperiorArea(loc1, loc2, Area.AreaType.SUPERIOR);
+                    for (Location location : area.getLocations()) {
+                        for (Area a : AreaChecker.superiorAreas) {
+                            if (a.partOf(location)) {
+                                player.sendMessage("§4Area part of another area!");
+                                return false;
+                            }
+                        }
+                    }
+                    //CreativeWorld.initializeNewArea(area);
+                    player.sendMessage("§aArea created!");
+                }
+            }
+            case "delete" -> {
+                /*if (CreativeWorld.getArea(player) == null) {
+                    player.sendMessage("§4You're not standing inside an area!");
+                    return false;
+                }
+                CreativeWorld.deleteArea(CreativeWorld.getArea(player));
+                player.sendMessage("§aArea removed!");*/
+            }
+        }
+
+        return false;
+    }
+}

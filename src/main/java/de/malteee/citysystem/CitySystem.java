@@ -4,10 +4,9 @@ import de.malteee.citysystem.commands_admin.BreakShopCommand;
 import de.malteee.citysystem.commands_admin.SetWorldSpawnCommand;
 import de.malteee.citysystem.commands_general.*;
 import de.malteee.citysystem.core.CityPlayer;
+import de.malteee.citysystem.core.StatsSaver;
 import de.malteee.citysystem.database.Database;
-import de.malteee.citysystem.utilities.ShopSign;
-import de.malteee.citysystem.utilities.Tools;
-import de.malteee.citysystem.utilities.WorldCreation;
+import de.malteee.citysystem.utilities.*;
 import de.malteee.citysystem.chat.PlayerChatListener;
 import de.malteee.citysystem.world_managing.PlayerJoinListener;
 import de.malteee.citysystem.world_managing.PlayerLeaveListener;
@@ -49,6 +48,7 @@ public class CitySystem extends JavaPlugin {
         pluginManager.registerEvents(new PlayerChatListener(), this);
         pluginManager.registerEvents(new PlayerLeaveListener(), this);
         pluginManager.registerEvents(new PlayerManipulateWorldListener(), this);
+        pluginManager.registerEvents(new StatsSaver(), this);
 
         getCommand("spawn").setExecutor(new WorldSpawnCommand());
         getCommand("setSpawn").setExecutor(new SetWorldSpawnCommand());
@@ -73,6 +73,9 @@ public class CitySystem extends JavaPlugin {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        AreaChecker.initializeAreas();
+
         Bukkit.getScheduler().scheduleSyncDelayedTask(this, () -> {
             mainWorld = Bukkit.getWorld("mainWorld");
             farmWorld = Bukkit.getWorld("farmWorld");
