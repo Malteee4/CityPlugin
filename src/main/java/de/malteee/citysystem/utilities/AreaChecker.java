@@ -3,6 +3,7 @@ package de.malteee.citysystem.utilities;
 import de.malteee.citysystem.CitySystem;
 import de.malteee.citysystem.core.City;
 import de.malteee.citysystem.core.CityPlayer;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -18,6 +19,10 @@ public class AreaChecker implements Listener {
 
     }
 
+    public static void createSuperiorArea(Location loc1, Location loc2) {
+
+
+    }
 
     @EventHandler
     public void handlePlayerMove(PlayerMoveEvent event) {

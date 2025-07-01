@@ -15,8 +15,9 @@ public class Database {
             con = DriverManager.getConnection(connectionUrl);
             System.out.println("Sqlite connected!");
             con.prepareStatement("CREATE TABLE IF NOT EXISTS tbl_properties(CODE varchar(20), VALUE varchar(60))").execute();
-            //con.prepareStatement("CREATE TABLE IF NOT EXISTS tbl_players()").execute();
-            //con.prepareStatement("CREATE TABLE IF NOT EXISTS tbl_player_stats").execute();
+            //con.prepareStatement("CREATE TABLE IF NOT EXISTS tbl_players(PLAYER_ID varchar(40), MONEY int, )").execute();
+            con.prepareStatement("CREATE TABLE IF NOT EXISTS tbl_player_stats(PLAYER_ID varchar(40), BLOCK_BREAK int, BLOCK_PLACE int, ENTITY_KILL int, PLAYER_KILL int, DEATHS int, DISTANCE int)").execute();
+            con.prepareStatement("CREATE IF NOT EXISTS tbl_areas(AREA_ID varchar(20), TYPE varchar(20), LOC1 varchar(30), LOC2 varchar(30))");
             try {
                 Thread.sleep(200);
             } catch (InterruptedException e) {

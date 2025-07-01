@@ -19,3 +19,7 @@ commands:
     description: to set a home and teleport to it
   farmWorld:
     description: teleports you to the farmWorld
+  mainWorld:
+    description: teleports you to the mainWorld
+  createSuperiorArea:
+    description: admin use only

@@ -1,7 +1,9 @@
 package de.malteee.citysystem;
 
 import de.malteee.citysystem.commands_admin.BreakShopCommand;
+import de.malteee.citysystem.commands_admin.CreateSuperiorArea;
 import de.malteee.citysystem.commands_admin.SetWorldSpawnCommand;
+import de.malteee.citysystem.commands_general.WorldSpawnCommand;
 import de.malteee.citysystem.commands_general.*;
 import de.malteee.citysystem.core.CityPlayer;
 import de.malteee.citysystem.core.StatsSaver;
@@ -57,6 +59,8 @@ public class CitySystem extends JavaPlugin {
         getCommand("money").setExecutor(new MoneyCommand());
         getCommand("home").setExecutor(new HomeCommand());
         getCommand("farmWorld").setExecutor(new FarmworldCommand());
+        getCommand("mainWorld").setExecutor(new MainWorldCommand());
+        getCommand("createSuperiorArea").setExecutor(new CreateSuperiorArea());
 
         for(int i = 0; i<maps.size(); i++) {
             WorldCreator w = (WorldCreator) new WorldCreator(maps.get(i)).type(WorldType.NORMAL);
@@ -87,12 +91,12 @@ public class CitySystem extends JavaPlugin {
     }
 
     public static boolean isRegistered(Player player) {
-        try {
+        /*try {
             ResultSet rs = db.getCon().prepareStatement("SELECT * FROM tbl_players WHERE UUID = '" + player.getUniqueId().toString() + "'").getResultSet();
             return rs.next();
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
         return false;
     }
 
@@ -115,6 +119,7 @@ public class CitySystem extends JavaPlugin {
 
     public static void removePlayer(CityPlayer player) {
         players.remove(player);
+        StatsSaver.PlayerLeft(player.toPlayer());
     }
 
     public static CityPlayer getCityPlayer(Player player) {

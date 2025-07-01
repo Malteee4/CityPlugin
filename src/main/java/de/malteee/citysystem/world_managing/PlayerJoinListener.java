@@ -2,6 +2,8 @@ package de.malteee.citysystem.world_managing;
 
 import de.malteee.citysystem.CitySystem;
 import de.malteee.citysystem.commands_general.WorldSpawnCommand;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -14,6 +16,10 @@ public class PlayerJoinListener implements Listener {
         Player player = event.getPlayer();
         event.setJoinMessage("§o" + player.getName() + " just appeared!");
         player.setPlayerListName("  §6§l" + player.getName() + "  ");
+        if (player.getName().equals("JanikObenaus")) {
+            player.teleport(new Location(Bukkit.getWorld("janiksWorld"), -438, 70, 206));
+            return;
+        }
         player.teleport(WorldSpawnCommand.worldSpawn.get(CitySystem.spawnWorld));
         if (!CitySystem.isRegistered(player)) {
             CitySystem.registerPlayer(player);

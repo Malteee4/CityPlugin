@@ -40,7 +40,7 @@ public class CreateSuperiorArea implements CommandExecutor {
                             }
                         }
                     }
-                    //CreativeWorld.initializeNewArea(area);
+
                     player.sendMessage("§aArea created!");
                 }
             }

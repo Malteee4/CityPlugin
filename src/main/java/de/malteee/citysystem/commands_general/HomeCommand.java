@@ -10,7 +10,13 @@ public class HomeCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player player)) return false;
+        if (args.length > 0) {
+            if (args[0].equalsIgnoreCase("set")) {
 
+                return false;
+            }
+        }
+        //TODO: check for home point
         return false;
     }
 }

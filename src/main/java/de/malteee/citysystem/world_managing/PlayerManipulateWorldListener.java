@@ -17,6 +17,7 @@ public class PlayerManipulateWorldListener implements Listener {
     @EventHandler
     public void handlePlayerBreakBlock(BlockBreakEvent event) {
         Player player = event.getPlayer();
+        if (player.getName().equals("Malteee___")) return;
         if (player.getWorld().equals(CitySystem.spawnWorld))
             event.setCancelled(true);
     }
@@ -24,6 +25,7 @@ public class PlayerManipulateWorldListener implements Listener {
     @EventHandler
     public void handlePlayerPlaceBlock(BlockPlaceEvent event) {
         Player player = event.getPlayer();
+        if (player.getName().equals("Malteee___")) return;
         if (player.getWorld().equals(CitySystem.spawnWorld))
             event.setCancelled(true);
     }
@@ -31,6 +33,7 @@ public class PlayerManipulateWorldListener implements Listener {
     @EventHandler
     public void onPlayerInteractAtEntity(PlayerInteractEntityEvent event) {
         Player player = event.getPlayer();
+        if (player.getName().equals("Malteee___")) return;
         if (player.getWorld().equals(CitySystem.spawnWorld))
             event.setCancelled(true);
     }
@@ -38,6 +41,7 @@ public class PlayerManipulateWorldListener implements Listener {
     @EventHandler
     public void onPlayerDestroyFarmland(PlayerInteractEvent event) {
         Player player = event.getPlayer();
+        if (player.getName().equals("Malteee___")) return;
         if (player.getWorld().equals(CitySystem.spawnWorld))
             event.setCancelled(true);
     }
