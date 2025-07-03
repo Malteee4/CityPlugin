@@ -57,9 +57,8 @@ public class Konto {
         this.mot = 0;
     }
 
-    public int getMoney() {
-
-        return -1;
+    public double getMoney() {
+        return money;
     }
 
     public void setMoney(int i) {

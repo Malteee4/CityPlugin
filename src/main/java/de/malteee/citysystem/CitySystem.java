@@ -73,7 +73,7 @@ public class CitySystem extends JavaPlugin {
             while (rs.next()) {
                 String loc = rs.getString("VALUE");
                 WorldSpawnCommand.worldSpawn.put(spawnWorld, Tools.getLocFromString(loc, this));
-            }
+            }rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -87,30 +87,37 @@ public class CitySystem extends JavaPlugin {
     }
 
     public void onDisable() {
-
+        for (CityPlayer player : players)
+            removePlayer(player);
+        db.disconnect();
     }
 
     public static boolean isRegistered(Player player) {
-        /*try {
-            ResultSet rs = db.getCon().prepareStatement("SELECT * FROM tbl_players WHERE UUID = '" + player.getUniqueId().toString() + "'").getResultSet();
-            return rs.next();
+        try {
+            ResultSet rs = db.getCon().prepareStatement("SELECT * FROM tbl_players WHERE PLAYER_ID = '" + player.getUniqueId().toString() + "'").executeQuery();
+            if (rs.next()) {
+                rs.close();
+                return true;
+            }
         } catch (Exception e) {
             e.printStackTrace();
-        }*/
+        }
         return false;
     }
 
     public static void registerPlayer(Player player) {
-
+        try {
+            db.getCon().prepareStatement("INSERT INTO tbl_players(PLAYER_ID, MONEY, JOB, RANK) VALUES('" + player.getUniqueId().toString() + "', 0, 'NONE', 'NONE')").execute();
+            CityPlayer cityPlayer = new CityPlayer(player);
+            players.add(cityPlayer);
+        }catch (Exception exception) {
+            exception.printStackTrace();
+        }
     }
 
     public static void loadPlayer(Player player) {
-        try {
-            ResultSet rs = db.getCon().prepareStatement("SELECT * FROM tbl_players WHERE UUID = '" + player.getUniqueId().toString() + "'").getResultSet();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        CityPlayer cityPlayer = new CityPlayer(player);
+        players.add(cityPlayer);
     }
 
     public static void addPlayer(CityPlayer player) {

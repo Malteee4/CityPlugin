@@ -20,7 +20,6 @@ public class PlayerJoinListener implements Listener {
             player.teleport(new Location(Bukkit.getWorld("janiksWorld"), -438, 70, 206));
             return;
         }
-        player.teleport(WorldSpawnCommand.worldSpawn.get(CitySystem.spawnWorld));
         if (!CitySystem.isRegistered(player)) {
             CitySystem.registerPlayer(player);
             player.teleport(WorldSpawnCommand.worldSpawn.get(CitySystem.spawnWorld));
