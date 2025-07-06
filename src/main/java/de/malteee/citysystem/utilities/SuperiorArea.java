@@ -1,5 +1,6 @@
 package de.malteee.citysystem.utilities;
 
+import de.malteee.citysystem.area.Area;
 import org.bukkit.Location;
 
 import java.util.ArrayList;

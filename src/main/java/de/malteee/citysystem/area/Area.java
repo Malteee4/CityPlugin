@@ -1,7 +1,8 @@
-package de.malteee.citysystem.utilities;
+package de.malteee.citysystem.area;
 
 import de.malteee.citysystem.core.City;
 import de.malteee.citysystem.core.Plot;
+import de.malteee.citysystem.utilities.SuperiorArea;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;

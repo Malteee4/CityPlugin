@@ -1,8 +1,7 @@
 package de.malteee.citysystem.commands_admin;
 
-import de.malteee.citysystem.CitySystem;
-import de.malteee.citysystem.utilities.Area;
-import de.malteee.citysystem.utilities.AreaChecker;
+import de.malteee.citysystem.area.Area;
+import de.malteee.citysystem.area.AreaChecker;
 import de.malteee.citysystem.utilities.SuperiorArea;
 import org.bukkit.Location;
 import org.bukkit.command.Command;

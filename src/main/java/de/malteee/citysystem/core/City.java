@@ -1,6 +1,6 @@
 package de.malteee.citysystem.core;
 
-import de.malteee.citysystem.utilities.Area;
+import de.malteee.citysystem.area.Area;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 

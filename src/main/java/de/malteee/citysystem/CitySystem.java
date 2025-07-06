@@ -1,5 +1,6 @@
 package de.malteee.citysystem;
 
+import de.malteee.citysystem.area.AreaChecker;
 import de.malteee.citysystem.commands_admin.BreakShopCommand;
 import de.malteee.citysystem.commands_admin.CreateSuperiorArea;
 import de.malteee.citysystem.commands_admin.SetWorldSpawnCommand;
