@@ -2,11 +2,9 @@ package de.malteee.citysystem.world_managing;
 
 import de.malteee.citysystem.CitySystem;
 import de.malteee.citysystem.core.CityPlayer;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
@@ -24,7 +22,7 @@ public class PlayerManipulateWorldListener implements Listener {
             event.setCancelled(true);
         if (cPlayer.getBlocksInWilderness() == CityPlayer.BLOCKS_MAX) {
             //TODO: message -> building limit in wilderness
-            return;
+            event.setCancelled(true);
         }else {
             cPlayer.setBlocksWilderness(cPlayer.getBlocksInWilderness() + 1);
         }
@@ -39,7 +37,7 @@ public class PlayerManipulateWorldListener implements Listener {
             event.setCancelled(true);
         if (cPlayer.getBlocksInWilderness() == CityPlayer.BLOCKS_MAX) {
             //TODO: message -> building limit in wilderness
-            return;
+            event.setCancelled(true);
         }else {
             cPlayer.setBlocksWilderness(cPlayer.getBlocksInWilderness() + 1);
         }

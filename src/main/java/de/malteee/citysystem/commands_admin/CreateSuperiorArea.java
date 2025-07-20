@@ -1,8 +1,10 @@
 package de.malteee.citysystem.commands_admin;
 
+import de.malteee.citysystem.CitySystem;
 import de.malteee.citysystem.area.Area;
 import de.malteee.citysystem.area.AreaChecker;
-import de.malteee.citysystem.utilities.SuperiorArea;
+import de.malteee.citysystem.core.CityPlayer;
+import de.malteee.citysystem.area.SuperiorArea;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -39,17 +41,17 @@ public class CreateSuperiorArea implements CommandExecutor {
                             }
                         }
                     }
-
                     player.sendMessage("§aArea created!");
                 }
             }
             case "delete" -> {
-                /*if (CreativeWorld.getArea(player) == null) {
+                CityPlayer cPlayer = CitySystem.getCityPlayer(player);
+                if (cPlayer.getSuperiorArea() == null) {
                     player.sendMessage("§4You're not standing inside an area!");
                     return false;
                 }
-                CreativeWorld.deleteArea(CreativeWorld.getArea(player));
-                player.sendMessage("§aArea removed!");*/
+                cPlayer.getSuperiorArea().delete();
+                player.sendMessage("§aArea removed!");
             }
         }
 

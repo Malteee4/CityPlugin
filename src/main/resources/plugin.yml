@@ -12,7 +12,7 @@ commands:
   breakShop:
     description: let's you break a shop
   world:
-    description: world
+    description: admin use only
   money:
     description: shows you your balance
   home:
@@ -23,3 +23,11 @@ commands:
     description: teleports you to the mainWorld
   createSuperiorArea:
     description: admin use only
+  hologram:
+    description: admin use only
+  pos1:
+    description: sets position 1
+  pos2:
+    description: sets position 2
+  msg:
+    description: write a private message to someone

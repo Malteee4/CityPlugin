@@ -1,8 +1,10 @@
 package de.malteee.citysystem;
 
 import de.malteee.citysystem.area.AreaChecker;
+import de.malteee.citysystem.area.PosCommand;
 import de.malteee.citysystem.commands_admin.BreakShopCommand;
 import de.malteee.citysystem.commands_admin.CreateSuperiorArea;
+import de.malteee.citysystem.commands_admin.HologramCommand;
 import de.malteee.citysystem.commands_admin.SetWorldSpawnCommand;
 import de.malteee.citysystem.commands_general.WorldSpawnCommand;
 import de.malteee.citysystem.commands_general.*;
@@ -11,13 +13,11 @@ import de.malteee.citysystem.core.StatsSaver;
 import de.malteee.citysystem.database.Database;
 import de.malteee.citysystem.utilities.*;
 import de.malteee.citysystem.chat.PlayerChatListener;
+import de.malteee.citysystem.world_managing.Border;
 import de.malteee.citysystem.world_managing.PlayerJoinListener;
 import de.malteee.citysystem.world_managing.PlayerLeaveListener;
 import de.malteee.citysystem.world_managing.PlayerManipulateWorldListener;
-import org.bukkit.Bukkit;
-import org.bukkit.World;
-import org.bukkit.WorldCreator;
-import org.bukkit.WorldType;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -52,6 +52,7 @@ public class CitySystem extends JavaPlugin {
         pluginManager.registerEvents(new PlayerLeaveListener(), this);
         pluginManager.registerEvents(new PlayerManipulateWorldListener(), this);
         pluginManager.registerEvents(new StatsSaver(), this);
+        pluginManager.registerEvents(new HologramCommand(), this);
 
         getCommand("spawn").setExecutor(new WorldSpawnCommand());
         getCommand("setSpawn").setExecutor(new SetWorldSpawnCommand());
@@ -62,8 +63,17 @@ public class CitySystem extends JavaPlugin {
         getCommand("farmWorld").setExecutor(new FarmworldCommand());
         getCommand("mainWorld").setExecutor(new MainWorldCommand());
         getCommand("createSuperiorArea").setExecutor(new CreateSuperiorArea());
+        getCommand("hologram").setExecutor(new HologramCommand());
+        getCommand("pos1").setExecutor(new PosCommand());
+        getCommand("pos2").setExecutor(new PosCommand());
+        getCommand("msg").setExecutor(new MsgCommand());
 
         for(int i = 0; i<maps.size(); i++) {
+            if (maps.get(i).equalsIgnoreCase("mainWorld")) {
+                WorldCreator w = (WorldCreator) new WorldCreator(maps.get(i)).type(WorldType.NORMAL).generatorSettings("cold_ocean");
+                Bukkit.createWorld(w);
+                Bukkit.getWorlds().add(Bukkit.getWorld(maps.get(i)));
+            }
             WorldCreator w = (WorldCreator) new WorldCreator(maps.get(i)).type(WorldType.NORMAL);
             Bukkit.createWorld(w);
             Bukkit.getWorlds().add(Bukkit.getWorld(maps.get(i)));
@@ -85,6 +95,8 @@ public class CitySystem extends JavaPlugin {
             mainWorld = Bukkit.getWorld("mainWorld");
             farmWorld = Bukkit.getWorld("farmWorld");
         }, 160);
+
+        new Border(new Location(mainWorld, 3200, 100, 2300), 9300);
     }
 
     public void onDisable() {
