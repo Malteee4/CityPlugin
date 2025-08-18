@@ -136,6 +136,7 @@ public class Area implements Listener {
     public enum AreaType {
         SUPERIOR,
         CITY,
-        PLOT
+        PLOT,
+        SPAWN
     }
 }

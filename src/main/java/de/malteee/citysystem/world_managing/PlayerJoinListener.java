@@ -2,6 +2,7 @@ package de.malteee.citysystem.world_managing;
 
 import de.malteee.citysystem.CitySystem;
 import de.malteee.citysystem.commands_general.WorldSpawnCommand;
+import de.malteee.citysystem.core.CityPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -26,6 +27,14 @@ public class PlayerJoinListener implements Listener {
             player.teleport(new Location(Bukkit.getWorld("janiksWorld"), -438, 70, 206));
             return;
         }
+        if (!CitySystem.isRegistered(player)) {
+            CitySystem.registerPlayer(player);
+            player.teleport(WorldSpawnCommand.worldSpawn.get(CitySystem.spawnWorld));
+            player.sendMessage("§aWelcome to Futuria!\nIf you want a tutorial, just use /tutorial.");
+        }else
+            CitySystem.loadPlayer(player);
+
+        CityPlayer cPlayer = CitySystem.getCityPlayer(player);
         if (!(config.contains("login_today"))) {
             ArrayList<String> list = new ArrayList<>(); list.add(player.getUniqueId().toString());
             config.set("login_today", list);
@@ -34,13 +43,9 @@ public class PlayerJoinListener implements Listener {
             if (!list.contains(player.getUniqueId().toString())) {
                 list.add(player.getUniqueId().toString());
                 config.set("login_today", list);
+                config.set("active." + player.getUniqueId().toString(), (config.getInt("active." + player.getUniqueId().toString()) + 1));
+                cPlayer.getKonto().addMoney(1);
             }
         }CitySystem.getPlugin().saveConfig();
-        if (!CitySystem.isRegistered(player)) {
-            CitySystem.registerPlayer(player);
-            player.teleport(WorldSpawnCommand.worldSpawn.get(CitySystem.spawnWorld));
-            player.sendMessage("§aWelcome to Futuria!\nIf you want a tutorial, just use /tutorial.");
-        }else
-            CitySystem.loadPlayer(player);
     }
 }

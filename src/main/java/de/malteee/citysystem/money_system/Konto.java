@@ -14,10 +14,16 @@ public class Konto {
     private double mot = 0;
     public double motPerMinute = 1;
     public static final int MOT_MAX = 300;
+    private CityPlayer owner;
 
-    public Konto(int balance) {
+    public Konto(int balance, CityPlayer player) {
         this.money = balance;
+        this.owner = player;
+        try {
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public double getMot() {
@@ -43,23 +49,24 @@ public class Konto {
         return money;
     }
 
-    public void setMoney(int i) {
+    public void setMoney(double i) {
+        if (i < 0) return;
+        this.money = i;
+    }
+
+    public void addMoney(double i) {
+        this.money += i;
+    }
+
+    public void removeMoney(double i) {
 
     }
 
-    public void addMoney(int i) {
+    public void save()  {
 
     }
 
-    public void removeMoney(int i) {
-
-    }
-
-    private void save()  {
-
-    }
-
-    private void transfer(Konto receiver) {
+    public void transfer(Konto receiver) {
 
     }
 }

@@ -31,3 +31,7 @@ commands:
     description: sets position 2
   msg:
     description: write a private message to someone
+  city:
+    description: city command
+  setMainSpawn:
+    description: admin use only

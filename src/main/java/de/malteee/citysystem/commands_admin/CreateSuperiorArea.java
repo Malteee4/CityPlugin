@@ -11,6 +11,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+@Deprecated
 public class CreateSuperiorArea implements CommandExecutor {
 
     private Location loc1, loc2;

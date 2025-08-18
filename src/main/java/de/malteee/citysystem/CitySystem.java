@@ -2,21 +2,20 @@ package de.malteee.citysystem;
 
 import de.malteee.citysystem.area.AreaChecker;
 import de.malteee.citysystem.area.PosCommand;
-import de.malteee.citysystem.commands_admin.BreakShopCommand;
-import de.malteee.citysystem.commands_admin.CreateSuperiorArea;
-import de.malteee.citysystem.commands_admin.HologramCommand;
-import de.malteee.citysystem.commands_admin.SetWorldSpawnCommand;
+import de.malteee.citysystem.chat.MessageBroadcaster;
+import de.malteee.citysystem.commands_admin.*;
+import de.malteee.citysystem.commands_city.CityCommand;
 import de.malteee.citysystem.commands_general.WorldSpawnCommand;
 import de.malteee.citysystem.commands_general.*;
+import de.malteee.citysystem.core.City;
 import de.malteee.citysystem.core.CityPlayer;
 import de.malteee.citysystem.core.StatsSaver;
+import de.malteee.citysystem.core.Timer;
 import de.malteee.citysystem.database.Database;
+import de.malteee.citysystem.money_system.MoneyManager;
 import de.malteee.citysystem.utilities.*;
 import de.malteee.citysystem.chat.PlayerChatListener;
-import de.malteee.citysystem.world_managing.Border;
-import de.malteee.citysystem.world_managing.PlayerJoinListener;
-import de.malteee.citysystem.world_managing.PlayerLeaveListener;
-import de.malteee.citysystem.world_managing.PlayerManipulateWorldListener;
+import de.malteee.citysystem.world_managing.*;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
@@ -32,8 +31,10 @@ public class CitySystem extends JavaPlugin {
 
     private static CitySystem plugin;
     private static Database db;
+    private static MoneyManager mm;
 
     private static HashSet<CityPlayer> players = new HashSet<>();
+    private static HashSet<City> cities = new HashSet<>();
 
     public static World spawnWorld = Bukkit.getWorld("world");
     public static World mainWorld = Bukkit.getWorld("mainWorld");
@@ -53,6 +54,7 @@ public class CitySystem extends JavaPlugin {
         pluginManager.registerEvents(new PlayerManipulateWorldListener(), this);
         pluginManager.registerEvents(new StatsSaver(), this);
         pluginManager.registerEvents(new HologramCommand(), this);
+        pluginManager.registerEvents(new PlayerDeathListener(), this);
 
         getCommand("spawn").setExecutor(new WorldSpawnCommand());
         getCommand("setSpawn").setExecutor(new SetWorldSpawnCommand());
@@ -67,6 +69,8 @@ public class CitySystem extends JavaPlugin {
         getCommand("pos1").setExecutor(new PosCommand());
         getCommand("pos2").setExecutor(new PosCommand());
         getCommand("msg").setExecutor(new MsgCommand());
+        getCommand("city").setExecutor(new CityCommand());
+        getCommand("setMainSpawn").setExecutor(new SetMainWorldSpawnCommand());
 
         for(int i = 0; i<maps.size(); i++) {
             if (maps.get(i).equalsIgnoreCase("mainWorld")) {
@@ -96,7 +100,12 @@ public class CitySystem extends JavaPlugin {
             farmWorld = Bukkit.getWorld("farmWorld");
         }, 160);
 
-        new Border(new Location(mainWorld, 3200, 100, 2300), 9300);
+        new Border(new Location(mainWorld, -520, 100, -1000), 18100);
+        new Border(new Location(farmWorld, 0, 100, 0), 2400);
+        new Border(new Location(spawnWorld, 600, 100, 1700), 2500);
+        new Timer();
+        new MessageBroadcaster();
+        mm = new MoneyManager();
     }
 
     public void onDisable() {
@@ -148,6 +157,10 @@ public class CitySystem extends JavaPlugin {
                 return pl;
         }
         return null;
+    }
+
+    public static MoneyManager getMm() {
+        return mm;
     }
 
     public static Set<CityPlayer> getCityPlayers() {

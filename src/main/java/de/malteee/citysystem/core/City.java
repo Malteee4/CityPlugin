@@ -9,28 +9,30 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 public class City implements Listener {
 
     private String name, welcome;
     private Player owner;
+    private ArrayList<Player> buildingRight = new ArrayList<>();
 
     private List<Area> areas;
     private List<Residential> plots;
     private List<Shop> shops;
 
     private double totalIncome, experience;
-    private int days_active;
-    private boolean active = true;
+    private int daysActive;
+    private boolean active = true, publicSpawn = false;
     private Location spawnpoint;
 
     public City(String name, Player owner, Area area, Location position) {
         try {
-            CitySystem.getDatabase().getCon().prepareStatement("INSERT INTO tbl_cities(CITY_ID, WELCOME, SPAWN, PLAYER_ID, DAYS_ACTIVE) VALUES('" + name + "', 'You've entered a city!', '" +
-                    Tools.locationToString(position) + "', '" + owner.getUniqueId().toString() + "', 1)").execute();
+            CitySystem.getDatabase().getCon().prepareStatement("INSERT INTO tbl_city(CITY_ID, WELCOME, SPAWN, PLAYER_ID, DAYS_ACTIVE, PUBLIC_SPAWN) VALUES('" + name + "', 'You've entered a city!', '" +
+                    Tools.locationToString(position) + "', '" + owner.getUniqueId().toString() + "', 1, 'FALSE')").execute();
             CitySystem.getDatabase().getCon().prepareStatement("INSERT INTO tbl_city_areas(CITY_ID, AREA_ID) VALUES('" + name + "', '" + area.getId() + "')").execute();
-            days_active = 1;
+            daysActive = 1;
             areas.add(area);
             this.owner = owner;
             this.name = name;
@@ -43,16 +45,54 @@ public class City implements Listener {
 
     public City(String id) {
         try {
-            ResultSet rs = CitySystem.getDatabase().getCon().prepareStatement("SELECT * FROM tbl_cities WHERE CITY_ID = '" + id + "'").executeQuery();
+            ResultSet rs = CitySystem.getDatabase().getCon().prepareStatement("SELECT * FROM tbl_city WHERE CITY_ID = '" + id + "'").executeQuery();
             while (rs.next()) {
                 this.owner = Bukkit.getPlayer(rs.getString("PLAYER_ID"));
                 this.welcome = rs.getString("WELCOME");
                 this.spawnpoint = Tools.getLocFromString(rs.getString("SPAWN"), CitySystem.getPlugin());
-                this.days_active = rs.getInt("DAYS_ACTIVE");
+                this.daysActive = rs.getInt("DAYS_ACTIVE");
+                this.publicSpawn = rs.getBoolean("PUBLIC_SPAWN");
             }
             this.name = id;
         }catch (Exception exception) {
             exception.printStackTrace();
         }
+    }
+
+    public void setSpawnAccess(boolean b) {
+        this.publicSpawn = b;
+        try {
+            CitySystem.getDatabase().getCon().prepareStatement("UPDATE tbl_city SET PUBLIC_SPAWN = '" + b + "' WHERE CITY_ID = '" + this.name + "'").execute();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean isSpawnPublic() {
+        return publicSpawn;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getWelcomeMessage() {
+        return welcome;
+    }
+
+    public Location getSpawn() {
+        return spawnpoint;
+    }
+
+    public Player getOwner() {
+        return owner;
+    }
+
+    public ArrayList<Player> getBuilding_right() {
+        return buildingRight;
+    }
+
+    public List<Area> getAreas() {
+        return areas;
     }
 }

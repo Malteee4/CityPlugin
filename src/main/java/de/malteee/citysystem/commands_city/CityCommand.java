@@ -21,7 +21,18 @@ public class CityCommand implements CommandExecutor {
             case "expand" -> {
 
             }
+            case "extensions" -> {
 
+            }
+            case "list" -> {
+
+            }
+            case "spawn" -> {
+
+            }
+            case "tp" -> {
+
+            }
         }
         return false;
     }

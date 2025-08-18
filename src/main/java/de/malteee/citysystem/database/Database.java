@@ -2,7 +2,9 @@ package de.malteee.citysystem.database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class Database {
 
@@ -22,9 +24,9 @@ public class Database {
             con.prepareStatement("CREATE TABLE IF NOT EXISTS tbl_areas(AREA_ID varchar(20), TYPE varchar(20), LOC1 varchar(30), LOC2 varchar(30), SUPERIOR varchar(30))").execute();
             con.prepareStatement("CREATE TABLE IF NOT EXISTS tbl_superior_areas(AREA_ID varchar(20), LOC1 varchar(30), LOC2 varchar(30))").execute();
 
-            //con.prepareStatement(CREATE TABLE IF NOT EXISTS tbl_plots()).execute();
+            //con.prepareStatement(CREATE TABLE IF NOT EXISTS tbl_plot()).execute();
             //con.prepareStatement(CREATE TABLE IF NOT EXISTS tbl_gs()).execute();
-            //con.prepareStatement(CREATE TABLE IF NOT EXISTS tbl_cities(CITY_ID varchar(30), WELCOME varchar(100), SPAWN varchar(30), PLAYER_ID varchar(40), DAYS_ACTIVE int)).execute();
+            //con.prepareStatement(CREATE TABLE IF NOT EXISTS tbl_city(CITY_ID varchar(30), WELCOME varchar(100), SPAWN varchar(30), PLAYER_ID varchar(40), DAYS_ACTIVE int, PUBLIC_SPAWN bool, BUILD_RIGHT varchar(300))).execute();
             //con.prepareStatement(CREATE TABLE IF NOT EXISTS tbl_city_areas(AREA_ID varchar(20), CITY_ID varchar(30))).execute();
 
             try {
@@ -43,6 +45,24 @@ public class Database {
             e.printStackTrace();
         }
     }
+
+    public void execute(String stmt) {
+        try {
+            con.prepareStatement(stmt).execute();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public ResultSet getResult(String stmt) {
+        try {
+            return con.prepareStatement(stmt).executeQuery();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
     public Connection getCon() {
         return con;

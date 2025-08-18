@@ -146,6 +146,7 @@ public class ShopSign implements Listener{
 
     @EventHandler
     public void onSignClick(PlayerInteractEvent e) {
+        if (e.getClickedBlock() == null) return;
         Player p = e.getPlayer(); Material b = e.getClickedBlock().getType();
         if(e.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
             if(item.containsKey(p) && config.contains(e.getClickedBlock().getLocation().getWorld().getName() + "" + e.getClickedBlock().getLocation().getBlockX() + "" + e.getClickedBlock().getLocation().getBlockY() + "" + e.getClickedBlock().getLocation().getBlockZ() + ".owner")) {
@@ -263,20 +264,7 @@ public class ShopSign implements Listener{
                                 leer = false;
                             }
                             if(!leer) {
-                                /*if(verkaeufer != null) {
-                                    if(!EconomyMain.getEco().hasAccount(name)) {
-                                        EconomyMain.getEco().createAccount(name);
-                                    }
-                                }else {
-                                    if(!EconomyMain.getEco().hasAccount(offline)) {
-                                        EconomyMain.getEco().createAccount(offline);
-                                    }
-                                }
-                                if(!EconomyMain.getEco().hasAccount(p.getUniqueId())) {
-                                    EconomyMain.getEco().createAccount(p.getUniqueId());
-                                }
-                                double buyermoney = EconomyMain.getEco().getBalance(p.getUniqueId()).getBalance();*/
-                                double buyermoney = 1000;
+                                double buyermoney = CitySystem.getCityPlayer(p).getKonto().getMoney();
                                 get.setAmount(1); ItemStack rem = new ItemStack(item.getType(), 1);
                                 if(buyermoney >= preis) {
                                     boolean bo = false;
@@ -302,8 +290,9 @@ public class ShopSign implements Listener{
                                     }
                                     get.setAmount(item.getAmount());
                                     p.getInventory().addItem(get);
-                                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "money take " + p.getName() + " " + preis);
-                                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "money give " + name + " " + preis);
+                                    //TODO
+                                    //Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "money take " + p.getName() + " " + preis);
+                                    //Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "money give " + name + " " + preis);
                                     if(!config.contains("players." + ver + ".shops.einnahmen")) {
                                         config.set("players." + ver + ".shops.einnahmen", 0);
                                     }
@@ -341,20 +330,7 @@ public class ShopSign implements Listener{
                                 leer = false;
                             }get.setAmount(1);
                             if(!leer) {
-                                /*if(verkaeufer != null) {
-                                    if(!EconomyMain.getEco().hasAccount(name)) {
-                                        EconomyMain.getEco().createAccount(name);
-                                    }
-                                }else {
-                                    if(!EconomyMain.getEco().hasAccount(offline)) {
-                                        EconomyMain.getEco().createAccount(offline);
-                                    }
-                                }
-                                if(!EconomyMain.getEco().hasAccount(p.getUniqueId())) {
-                                    EconomyMain.getEco().createAccount(p.getUniqueId());
-                                }
-                                double buyermoney = EconomyMain.getEco().getBalance(p.getUniqueId()).getBalance();*/
-                                double buyermoney = 1000;
+                                double buyermoney = CitySystem.getCityPlayer(p).getKonto().getMoney();
                                 if(buyermoney >= preis) {
                                     for(ItemStack s : ch.getInventory().getContents()) {
                                         if(s != null) {
@@ -383,8 +359,9 @@ public class ShopSign implements Listener{
                                             verkaeufer.sendMessage("§cDein Shop welcher " + item.getAmount() + " mal §6" + item.getType().toString().toLowerCase() + " §cverkauft ist nun leer!");
                                         }
                                     }
-                                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "money take " + p.getName() + " " + preis);
-                                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "money give " + name + " " + preis);
+                                    //TODO
+                                    //Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "money take " + p.getName() + " " + preis);
+                                    //Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "money give " + name + " " + preis);
                                     if(!config.contains("players." + ver + ".shops.einnahmen")) {
                                         config.set("players." + ver + ".shops.einnahmen", preis);
                                     }

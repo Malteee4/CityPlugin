@@ -14,7 +14,7 @@ public class MoneyCommand implements CommandExecutor {
         if (!(sender instanceof Player player)) return false;
         if (CitySystem.isRegistered(player)) {
             CityPlayer cPlayer = CitySystem.getCityPlayer(player);
-            player.sendMessage("§aYour current balance is: §l" + cPlayer.getKonto().getMoney());    //Shards
+            player.sendMessage("§aYour current balance is: §l" + cPlayer.getKonto().getMoney() + " Shards");    //Shards
         }else {
             //TODO: error message
         }

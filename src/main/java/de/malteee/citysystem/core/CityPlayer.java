@@ -1,24 +1,28 @@
 package de.malteee.citysystem.core;
 
 import de.malteee.citysystem.CitySystem;
+import de.malteee.citysystem.area.SuperiorArea;
 import de.malteee.citysystem.jobs.Job;
 import de.malteee.citysystem.money_system.Konto;
 import de.malteee.citysystem.area.Area;
 import org.bukkit.Location;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
+import java.io.File;
 import java.sql.ResultSet;
 
 public class CityPlayer {
 
     private Player player;
-    private Konto konto;
     private Residential residential;
-    private Area currentArea, superiorArea;
+    private Area currentArea;
+    private SuperiorArea superiorArea;
     private Job job;
+    private Konto konto;
 
-    public static final int BLOCKS_MAX = 200;
-    private int blocks_wild = 0;   //there is a maximum of how many blocks you're allowed to break and place in the wilderness
+    public static final int BLOCKS_MAX = 100;
+    private int blocks_wild = 0, days_active;   //there is a maximum of how many blocks you're allowed to break and place in the wilderness
     private boolean buildAllowed, inWilderness;
 
     private Location[] markedLocations = new Location[2];
@@ -28,8 +32,13 @@ public class CityPlayer {
         try {
             ResultSet rs = CitySystem.getDatabase().getCon().prepareStatement("SELECT * FROM tbl_players WHERE PLAYER_ID = '" + player.getUniqueId().toString() + "'").executeQuery();
             rs.next();
-            konto = new Konto(rs.getInt("MONEY"));
+
             //TODO: job
+            FileConfiguration config = CitySystem.getPlugin().getConfig();
+            if (!config.contains("active." + player.getUniqueId().toString()))
+                config.set("active." + player.getUniqueId().toString(), 0);
+            days_active = config.getInt("active." + player.getUniqueId().toString());
+            CitySystem.getPlugin().saveConfig();
             rs.close();
         }catch (Exception exception) {
             exception.printStackTrace();
@@ -60,11 +69,11 @@ public class CityPlayer {
         blocks_wild = i;
     }
 
-    public void setSuperiorArea(Area area) {
+    public void setSuperiorArea(SuperiorArea area) {
         this.superiorArea = area;
     }
 
-    public Area getSuperiorArea() {
+    public SuperiorArea getSuperiorArea() {
         return superiorArea;
     }
 
@@ -102,5 +111,9 @@ public class CityPlayer {
 
     public boolean isMarked(int index) {
        return !(markedLocations[index] == null);
+    }
+
+    public int getDaysActive() {
+        return days_active;
     }
 }
