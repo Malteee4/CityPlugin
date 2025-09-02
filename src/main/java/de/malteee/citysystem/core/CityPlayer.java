@@ -22,7 +22,7 @@ public class CityPlayer {
     private Konto konto;
 
     public static final int BLOCKS_MAX = 100;
-    private int blocks_wild = 0, days_active;   //there is a maximum of how many blocks you're allowed to break and place in the wilderness
+    private int blocks_wild = 0, days_active, job_cooldown;   //there is a maximum of how many blocks you're allowed to break and place in the wilderness
     private boolean buildAllowed, inWilderness;
 
     private Location[] markedLocations = new Location[2];
@@ -38,6 +38,10 @@ public class CityPlayer {
             if (!config.contains("active." + player.getUniqueId().toString()))
                 config.set("active." + player.getUniqueId().toString(), 0);
             days_active = config.getInt("active." + player.getUniqueId().toString());
+            if (config.contains("job_cooldown." + player.getUniqueId().toString()))
+                job_cooldown = config.getInt("job_cooldown." + player.getUniqueId().toString());
+            else
+                job_cooldown = 0;
             CitySystem.getPlugin().saveConfig();
             rs.close();
         }catch (Exception exception) {
@@ -99,6 +103,14 @@ public class CityPlayer {
 
     public Job getJob() {
        return job;
+    }
+
+    public boolean hasJob() {
+       return job == null;
+    }
+
+    public int getJobCooldown() {
+       return job_cooldown;
     }
 
     public void setJob(Job job) {

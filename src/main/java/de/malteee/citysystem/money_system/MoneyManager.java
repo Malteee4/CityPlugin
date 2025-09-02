@@ -12,16 +12,18 @@ public class MoneyManager {
     private HashMap<CityPlayer, Konto> konten = new HashMap<>();
 
     public MoneyManager() {
-        try {
-            ResultSet rs = CitySystem.getDatabase().getCon().prepareStatement("SELECT * FROM tbl_players").executeQuery();
 
-        }catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
-    public void initializeKonto() {
-
+    public void initializeKonto(CityPlayer player) {
+        try {
+            ResultSet rs = CitySystem.getDatabase().getResult("SELECT * FROM tbl_players WHERE PLAYER_ID='" + player.toPlayer().getUniqueId() + "'");
+            if (rs.next()) {
+                konten.put(player, new Konto(rs.getInt("MONEY"), player));
+            }
+        }catch (Exception exception) {
+            exception.printStackTrace();
+        }
     }
 
     public Konto getKonto(CityPlayer player) {

@@ -31,7 +31,23 @@ public class AreaChecker implements Listener {
     }
 
     private static void initializeSuperiorAreas(Location start, int size, int rowCount) {
-
+        int currentX = start.getBlockX(), currentZ = start.getBlockZ();
+        Location loc1 = start.clone();
+        Location loc2 = start.clone();
+        loc2.setX(loc2.getBlockX() + size - 1);
+        loc2.setZ(loc2.getBlockZ() + size - 1);
+        for (int i = 0; i < rowCount; i++) {
+            for (int i2 = 0; i2 < rowCount; i2++) {
+                superiorAreas.add(new SuperiorArea(loc1, loc2));
+                currentX += size;
+                loc1.setX(currentX);
+                loc2.setX(currentX + size - 1);
+            }
+            currentZ += size;
+            currentX = start.getBlockX();
+            loc1.setZ(currentZ);
+            loc2.setZ(currentZ + size - 1);
+        }
     }
 
     private static void createSuperiorArea(Location loc1, Location loc2) {

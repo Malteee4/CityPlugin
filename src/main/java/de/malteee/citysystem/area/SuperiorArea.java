@@ -11,8 +11,8 @@ public class SuperiorArea extends Area {
 
     private ArrayList<Area> areas = new ArrayList<>();
 
-    public SuperiorArea(Location loc1, Location loc2, AreaType type) {
-        super(loc1, loc2, type);
+    public SuperiorArea(Location loc1, Location loc2) {
+        super(loc1, loc2, AreaType.SUPERIOR);
         try {
             CitySystem.getDatabase().getCon().prepareStatement("INSERT INTO tbl_superior_areas(AREA_ID, LOC1, LOC2) VALUES('" + super.id + "', '"
                     + Tools.locationToString(loc1) + "', '" + Tools.locationToString(loc2) + "')").execute();

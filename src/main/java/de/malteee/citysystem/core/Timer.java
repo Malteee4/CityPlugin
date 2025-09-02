@@ -2,6 +2,7 @@ package de.malteee.citysystem.core;
 
 import de.malteee.citysystem.CitySystem;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -16,7 +17,11 @@ public class Timer {
             boolean reset = false;
             if (LocalDate.now().getDayOfMonth() != day) {
                 day = LocalDate.now().getDayOfMonth();
-                CitySystem.getPlugin().getConfig().set("login_today", new ArrayList<>());
+                FileConfiguration config = CitySystem.getPlugin().getConfig();
+                config.set("login_today", new ArrayList<>());
+                for (String uuid : config.getStringList("job_cooldown"))
+                    config.set("job_cooldown." + uuid, Math.max(config.getInt("job_cooldown." + uuid) - 1, 0));
+
                 CitySystem.getPlugin().saveConfig();
                 reset = true;
             }

@@ -132,6 +132,7 @@ public class CitySystem extends JavaPlugin {
             db.getCon().prepareStatement("INSERT INTO tbl_players(PLAYER_ID, MONEY, JOB, RANK) VALUES('" + player.getUniqueId().toString() + "', 0, 'NONE', 'NONE')").execute();
             CityPlayer cityPlayer = new CityPlayer(player);
             players.add(cityPlayer);
+            mm.initializeKonto(cityPlayer);
         }catch (Exception exception) {
             exception.printStackTrace();
         }
@@ -140,6 +141,7 @@ public class CitySystem extends JavaPlugin {
     public static void loadPlayer(Player player) {
         CityPlayer cityPlayer = new CityPlayer(player);
         players.add(cityPlayer);
+        mm.initializeKonto(cityPlayer);
     }
 
     public static void addPlayer(CityPlayer player) {

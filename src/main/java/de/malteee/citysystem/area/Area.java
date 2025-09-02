@@ -27,7 +27,7 @@ public class Area implements Listener {
         this.loc1 = loc1;
         this.loc2 = loc2;
         this.type = type;
-        id = "AREA-" + loc1.getBlockX() + "-" + loc1.getBlockY() + "-" + loc1.getBlockZ();
+        id = type.toString() + "-" + loc1.getBlockX() + "-" + loc1.getBlockY() + "-" + loc1.getBlockZ();
 
         xMax = Math.max(loc1.getBlockX(), loc2.getBlockX()); xMin = Math.min(loc1.getBlockX(), loc2.getBlockX());
         yMax = Math.max(loc1.getBlockY(), loc2.getBlockY()); yMin = Math.min(loc1.getBlockY(), loc2.getBlockY());
@@ -38,7 +38,7 @@ public class Area implements Listener {
         this.loc1 = loc1;
         this.loc2 = loc2;
         this.type = type;
-        id = "AREA-" + loc1.getBlockX() + "-" + loc1.getBlockY() + "-" + loc1.getBlockZ();
+        id = type.toString() + "-" + loc1.getBlockX() + "-" + loc1.getBlockY() + "-" + loc1.getBlockZ();
 
         xMax = Math.max(loc1.getBlockX(), loc2.getBlockX()); xMin = Math.min(loc1.getBlockX(), loc2.getBlockX());
         yMax = Math.max(loc1.getBlockY(), loc2.getBlockY()); yMin = Math.min(loc1.getBlockY(), loc2.getBlockY());
@@ -46,8 +46,8 @@ public class Area implements Listener {
 
         if (type != AreaType.SUPERIOR) {
             try {
-                CitySystem.getDatabase().getCon().prepareStatement("INSERT INTO tbl_areas(AREA_ID, TYPE, LOC1, LOC2, SUPERIOR) VALUES('" + id + "', '" + type.toString() +
-                        "', '" + Tools.locationToString(loc1) + "', '" + Tools.locationToString(loc2) + "', '" + superior.getId() + "')").execute();
+                CitySystem.getDatabase().execute("INSERT INTO tbl_areas(AREA_ID, TYPE, LOC1, LOC2, SUPERIOR) VALUES('" + id + "', '" + type.toString() +
+                        "', '" + Tools.locationToString(loc1) + "', '" + Tools.locationToString(loc2) + "', '" + superior.getId() + "')");
             }catch (Exception exception) {
                 exception.printStackTrace();
             }
