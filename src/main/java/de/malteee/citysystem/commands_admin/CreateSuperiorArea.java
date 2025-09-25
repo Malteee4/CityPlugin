@@ -33,7 +33,7 @@ public class CreateSuperiorArea implements CommandExecutor {
             }
             case "create" -> {
                 if (loc1 != null && loc2 != null) {
-                    SuperiorArea area = new SuperiorArea(loc1, loc2, Area.AreaType.SUPERIOR);
+                    SuperiorArea area = new SuperiorArea(loc1, loc2);
                     for (Location location : area.getLocations()) {
                         for (Area a : AreaChecker.superiorAreas) {
                             if (a.partOf(location)) {

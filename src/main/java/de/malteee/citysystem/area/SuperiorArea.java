@@ -3,6 +3,7 @@ package de.malteee.citysystem.area;
 import de.malteee.citysystem.CitySystem;
 import de.malteee.citysystem.core.City;
 import de.malteee.citysystem.utilities.Tools;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
 import java.util.ArrayList;
@@ -14,11 +15,15 @@ public class SuperiorArea extends Area {
     public SuperiorArea(Location loc1, Location loc2) {
         super(loc1, loc2, AreaType.SUPERIOR);
         try {
-            CitySystem.getDatabase().getCon().prepareStatement("INSERT INTO tbl_superior_areas(AREA_ID, LOC1, LOC2) VALUES('" + super.id + "', '"
-                    + Tools.locationToString(loc1) + "', '" + Tools.locationToString(loc2) + "')").execute();
+            CitySystem.getDatabase().execute("INSERT INTO tbl_superior_areas(AREA_ID, LOC1, LOC2) VALUES('" + super.id + "', '"
+                    + Tools.locationToString(loc1) + "', '" + Tools.locationToString(loc2) + "')");
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public SuperiorArea(Location loc1, Location loc2, String id) {
+        super(loc1, loc2, AreaType.SUPERIOR);
     }
 
     public void addArea(Area area) {
@@ -36,7 +41,7 @@ public class SuperiorArea extends Area {
         for (Area area : areas)
             area.delete();
         try {
-            CitySystem.getDatabase().getCon().prepareStatement("DELETE * FROM tbl_superior_areas WHERE AREA_ID='" + this.id + "'").execute();
+            CitySystem.getDatabase().execute("DELETE * FROM tbl_superior_areas WHERE AREA_ID='" + this.id + "'");
         }catch (Exception exception) {
             exception.printStackTrace();
         }

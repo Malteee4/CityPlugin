@@ -1,16 +1,15 @@
 package de.malteee.citysystem;
 
 import de.malteee.citysystem.area.AreaChecker;
+import de.malteee.citysystem.area.AreaCreator;
 import de.malteee.citysystem.area.PosCommand;
 import de.malteee.citysystem.chat.MessageBroadcaster;
 import de.malteee.citysystem.commands_admin.*;
 import de.malteee.citysystem.commands_city.CityCommand;
+import de.malteee.citysystem.commands_farming.FarmworldCommand;
 import de.malteee.citysystem.commands_general.WorldSpawnCommand;
 import de.malteee.citysystem.commands_general.*;
-import de.malteee.citysystem.core.City;
-import de.malteee.citysystem.core.CityPlayer;
-import de.malteee.citysystem.core.StatsSaver;
-import de.malteee.citysystem.core.Timer;
+import de.malteee.citysystem.core.*;
 import de.malteee.citysystem.database.Database;
 import de.malteee.citysystem.money_system.MoneyManager;
 import de.malteee.citysystem.utilities.*;
@@ -31,7 +30,10 @@ public class CitySystem extends JavaPlugin {
 
     private static CitySystem plugin;
     private static Database db;
+
     private static MoneyManager mm;
+    private static PlotManager pm;
+    private static CityManager cm;
 
     private static HashSet<CityPlayer> players = new HashSet<>();
     private static HashSet<City> cities = new HashSet<>();
@@ -55,6 +57,7 @@ public class CitySystem extends JavaPlugin {
         pluginManager.registerEvents(new StatsSaver(), this);
         pluginManager.registerEvents(new HologramCommand(), this);
         pluginManager.registerEvents(new PlayerDeathListener(), this);
+        pluginManager.registerEvents(new AreaCreator(), this);
 
         getCommand("spawn").setExecutor(new WorldSpawnCommand());
         getCommand("setSpawn").setExecutor(new SetWorldSpawnCommand());
@@ -71,8 +74,10 @@ public class CitySystem extends JavaPlugin {
         getCommand("msg").setExecutor(new MsgCommand());
         getCommand("city").setExecutor(new CityCommand());
         getCommand("setMainSpawn").setExecutor(new SetMainWorldSpawnCommand());
+        getCommand("tutorial").setExecutor(new TutorialCommand());
+        getCommand("database").setExecutor(new DatabaseCommand());
 
-        for(int i = 0; i<maps.size(); i++) {
+        for(int i = 0; i < maps.size(); i++) {
             if (maps.get(i).equalsIgnoreCase("mainWorld")) {
                 WorldCreator w = (WorldCreator) new WorldCreator(maps.get(i)).type(WorldType.NORMAL).generatorSettings("cold_ocean");
                 Bukkit.createWorld(w);
@@ -106,6 +111,8 @@ public class CitySystem extends JavaPlugin {
         new Timer();
         new MessageBroadcaster();
         mm = new MoneyManager();
+        cm = new CityManager();
+        pm = new PlotManager();
     }
 
     public void onDisable() {
@@ -129,10 +136,11 @@ public class CitySystem extends JavaPlugin {
 
     public static void registerPlayer(Player player) {
         try {
-            db.getCon().prepareStatement("INSERT INTO tbl_players(PLAYER_ID, MONEY, JOB, RANK) VALUES('" + player.getUniqueId().toString() + "', 0, 'NONE', 'NONE')").execute();
+            db.getCon().prepareStatement("INSERT INTO tbl_players(PLAYER_ID, MONEY, JOB, RANK, HOME) VALUES('" +
+                    player.getUniqueId().toString() + "', 0, 'NONE', 'NONE', 'NONE')").execute();
             CityPlayer cityPlayer = new CityPlayer(player);
             players.add(cityPlayer);
-            mm.initializeKonto(cityPlayer);
+            mm.createKonto(cityPlayer);
         }catch (Exception exception) {
             exception.printStackTrace();
         }
@@ -141,7 +149,7 @@ public class CitySystem extends JavaPlugin {
     public static void loadPlayer(Player player) {
         CityPlayer cityPlayer = new CityPlayer(player);
         players.add(cityPlayer);
-        mm.initializeKonto(cityPlayer);
+        Bukkit.broadcastMessage("test");
     }
 
     public static void addPlayer(CityPlayer player) {

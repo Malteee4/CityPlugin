@@ -16,9 +16,8 @@ public class Konto {
     public static final int MOT_MAX = 300;
     private CityPlayer owner;
 
-    public Konto(int balance, CityPlayer player) {
+    public Konto(int balance) {
         this.money = balance;
-        this.owner = player;
         try {
 
         } catch (Exception e) {
@@ -60,6 +59,10 @@ public class Konto {
 
     public void removeMoney(double i) {
 
+    }
+
+    public void transfer(CityPlayer sender, double i) {
+        
     }
 
     public void save()  {

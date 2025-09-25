@@ -29,9 +29,9 @@ public class City implements Listener {
 
     public City(String name, Player owner, Area area, Location position) {
         try {
-            CitySystem.getDatabase().getCon().prepareStatement("INSERT INTO tbl_city(CITY_ID, WELCOME, SPAWN, PLAYER_ID, DAYS_ACTIVE, PUBLIC_SPAWN) VALUES('" + name + "', 'You've entered a city!', '" +
-                    Tools.locationToString(position) + "', '" + owner.getUniqueId().toString() + "', 1, 'FALSE')").execute();
-            CitySystem.getDatabase().getCon().prepareStatement("INSERT INTO tbl_city_areas(CITY_ID, AREA_ID) VALUES('" + name + "', '" + area.getId() + "')").execute();
+            CitySystem.getDatabase().execute("INSERT INTO tbl_city(CITY_ID, WELCOME, SPAWN, PLAYER_ID, DAYS_ACTIVE, PUBLIC_SPAWN) VALUES('" + name + "', 'You've entered a city!', '" +
+                    Tools.locationToString(position) + "', '" + owner.getUniqueId().toString() + "', 1, 'FALSE')");
+            CitySystem.getDatabase().execute("INSERT INTO tbl_city_areas(CITY_ID, AREA_ID) VALUES('" + name + "', '" + area.getId() + "')");
             daysActive = 1;
             areas.add(area);
             this.owner = owner;
@@ -52,7 +52,7 @@ public class City implements Listener {
                 this.spawnpoint = Tools.getLocFromString(rs.getString("SPAWN"), CitySystem.getPlugin());
                 this.daysActive = rs.getInt("DAYS_ACTIVE");
                 this.publicSpawn = rs.getBoolean("PUBLIC_SPAWN");
-            }
+            }rs.close();
             this.name = id;
         }catch (Exception exception) {
             exception.printStackTrace();
@@ -62,7 +62,7 @@ public class City implements Listener {
     public void setSpawnAccess(boolean b) {
         this.publicSpawn = b;
         try {
-            CitySystem.getDatabase().getCon().prepareStatement("UPDATE tbl_city SET PUBLIC_SPAWN = '" + b + "' WHERE CITY_ID = '" + this.name + "'").execute();
+            CitySystem.getDatabase().execute("UPDATE tbl_city SET PUBLIC_SPAWN = '" + b + "' WHERE CITY_ID = '" + this.name + "'");
         }catch (Exception e) {
             e.printStackTrace();
         }

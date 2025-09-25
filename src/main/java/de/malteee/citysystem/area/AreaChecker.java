@@ -3,6 +3,7 @@ package de.malteee.citysystem.area;
 import de.malteee.citysystem.CitySystem;
 import de.malteee.citysystem.core.City;
 import de.malteee.citysystem.core.CityPlayer;
+import de.malteee.citysystem.utilities.Tools;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -12,22 +13,36 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class AreaChecker implements Listener {
 
     public static ArrayList<SuperiorArea> superiorAreas = new ArrayList<>();
+    public static HashSet<Area> areas = new HashSet<>();
 
     public static void initializeAreas() {
         try {
-            ResultSet rs = CitySystem.getDatabase().getCon().prepareStatement("SELECT * FROM tbl_superior_areas").executeQuery();
+            ResultSet rs = CitySystem.getDatabase().getResult("SELECT * FROM tbl_superior_areas");
             while (rs.next()) {
-
-                return;
-            }
-            initializeSuperiorAreas(new Location(CitySystem.mainWorld, -9570, 100, -10050), 2011, 9);
+                superiorAreas.add(new SuperiorArea(Tools.getLocFromString(rs.getString("LOC1"), CitySystem.getPlugin()), Tools.getLocFromString(rs.getString("LOC2"), CitySystem.getPlugin()),
+                        rs.getString("AREA_ID")));
+            }rs.close();
+            if (superiorAreas.isEmpty())
+                initializeSuperiorAreas(new Location(CitySystem.mainWorld, -9570, 100, -10050), 2011, 9);
         }catch (Exception e) {
             e.printStackTrace();
         }
+        try {
+            ResultSet rs = CitySystem.getDatabase().getResult("SELECT * FROM tbl_areas");
+            while (rs.next()) {
+                areas.add(new Area(Tools.getLocFromString(rs.getString("LOC1"), CitySystem.getPlugin()), Tools.getLocFromString("LOC2", CitySystem.getPlugin()),
+                        Area.AreaType.valueOf(rs.getString("TYPE"))));
+                rs.close();
+            }
+        }catch (Exception exception) {
+            exception.printStackTrace();
+        }
+        startChecking();
     }
 
     private static void initializeSuperiorAreas(Location start, int size, int rowCount) {
@@ -47,14 +62,6 @@ public class AreaChecker implements Listener {
             currentX = start.getBlockX();
             loc1.setZ(currentZ);
             loc2.setZ(currentZ + size - 1);
-        }
-    }
-
-    private static void createSuperiorArea(Location loc1, Location loc2) {
-        try {
-
-        }catch (Exception exception) {
-            exception.printStackTrace();
         }
     }
 

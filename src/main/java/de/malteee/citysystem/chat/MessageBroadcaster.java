@@ -12,7 +12,7 @@ public class MessageBroadcaster {
         try {
             Bukkit.getScheduler().scheduleSyncRepeatingTask(CitySystem.getPlugin(), () -> {
                 for (CityPlayer player : CitySystem.getCityPlayers()) {
-                    player.toPlayer().sendMessage("§6You've got " + player.getKonto().getMot() + "/" + Konto.MOT_MAX + " Shards today for playing!");
+                    player.toPlayer().sendMessage("§6You've got " + CitySystem.getMm().getKonto(player).getMot() + "/" + Konto.MOT_MAX + " Shards today for playing!");
                 }
             }, 0, 20 * 60 * 10);
         }catch (Exception exception) {

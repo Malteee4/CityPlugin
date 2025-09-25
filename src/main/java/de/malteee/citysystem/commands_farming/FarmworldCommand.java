@@ -1,7 +1,6 @@
-package de.malteee.citysystem.commands_general;
+package de.malteee.citysystem.commands_farming;
 
 import de.malteee.citysystem.CitySystem;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.Command;

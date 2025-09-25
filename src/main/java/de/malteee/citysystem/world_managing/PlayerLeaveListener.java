@@ -11,8 +11,8 @@ public class PlayerLeaveListener implements Listener {
 
     @EventHandler
     public void handlePlayerLeave(PlayerQuitEvent event) {
+        event.setQuitMessage("");
         CityPlayer cPlayer = CitySystem.getCityPlayer(event.getPlayer());
-        cPlayer.getKonto().save();
         CitySystem.removePlayer(cPlayer);
     }
 

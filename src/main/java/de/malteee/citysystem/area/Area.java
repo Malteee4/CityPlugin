@@ -54,14 +54,14 @@ public class Area implements Listener {
         }
     }
 
-    public Area(Location loc1, Location loc2, AreaType type, Plot plot) {
+    /*public Area(Location loc1, Location loc2, AreaType type, Plot plot) {
         this(loc1, loc2, type);
         this.plot = plot;
     }
     public Area(Location loc1, Location loc2, AreaType type, City city) {
         this(loc1, loc2, type);
         this.city = city;
-    }
+    }*/
 
 
     public boolean partOf(Location loc) {
@@ -122,7 +122,7 @@ public class Area implements Listener {
 
     public void delete() {
         try {
-            CitySystem.getDatabase().getCon().prepareStatement("DELETE * FROM tbl_areas WHERE AREA_ID='" + this.id + "'").execute();
+            CitySystem.getDatabase().execute("DELETE * FROM tbl_areas WHERE AREA_ID='" + this.id + "'");
         }catch (Exception exception) {
             exception.printStackTrace();
         }

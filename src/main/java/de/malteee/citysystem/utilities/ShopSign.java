@@ -264,7 +264,7 @@ public class ShopSign implements Listener{
                                 leer = false;
                             }
                             if(!leer) {
-                                double buyermoney = CitySystem.getCityPlayer(p).getKonto().getMoney();
+                                double buyermoney = 0;//CitySystem.getCityPlayer(p).getKonto().getMoney();
                                 get.setAmount(1); ItemStack rem = new ItemStack(item.getType(), 1);
                                 if(buyermoney >= preis) {
                                     boolean bo = false;
@@ -330,7 +330,7 @@ public class ShopSign implements Listener{
                                 leer = false;
                             }get.setAmount(1);
                             if(!leer) {
-                                double buyermoney = CitySystem.getCityPlayer(p).getKonto().getMoney();
+                                double buyermoney = 0;//CitySystem.getCityPlayer(p).getKonto().getMoney();
                                 if(buyermoney >= preis) {
                                     for(ItemStack s : ch.getInventory().getContents()) {
                                         if(s != null) {

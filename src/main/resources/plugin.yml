@@ -35,3 +35,7 @@ commands:
     description: city command
   setMainSpawn:
     description: admin use only
+  tutorial:
+    description: brings you to the tutorial
+  database:
+    description: admin use only

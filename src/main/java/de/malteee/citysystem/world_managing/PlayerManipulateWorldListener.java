@@ -11,6 +11,8 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerPortalEvent;
+import org.bukkit.event.world.PortalCreateEvent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -89,4 +91,13 @@ public class PlayerManipulateWorldListener implements Listener {
         event.setCancelled(!isAllowedToManipulate(player));
     }
 
+    @EventHandler
+    public void onPlayerEnterPortal(PlayerPortalEvent event) {
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onPlayerCreatePortal(PortalCreateEvent event) {
+        event.setCancelled(true);
+    }
 }

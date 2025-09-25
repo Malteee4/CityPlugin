@@ -44,7 +44,7 @@ public class PlayerJoinListener implements Listener {
                 list.add(player.getUniqueId().toString());
                 config.set("login_today", list);
                 config.set("active." + player.getUniqueId().toString(), (config.getInt("active." + player.getUniqueId().toString()) + 1));
-                cPlayer.getKonto().addMoney(1);
+                CitySystem.getMm().getKonto(cPlayer).addMoney((int) (10 * Math.sqrt(config.getInt("active." + player.getUniqueId().toString())) + 10));
             }
         }CitySystem.getPlugin().saveConfig();
     }

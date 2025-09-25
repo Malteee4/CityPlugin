@@ -5,6 +5,7 @@ import de.malteee.citysystem.area.SuperiorArea;
 import de.malteee.citysystem.jobs.Job;
 import de.malteee.citysystem.money_system.Konto;
 import de.malteee.citysystem.area.Area;
+import de.malteee.citysystem.utilities.Tools;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -19,7 +20,7 @@ public class CityPlayer {
     private Area currentArea;
     private SuperiorArea superiorArea;
     private Job job;
-    private Konto konto;
+    private Location homePoint;
 
     public static final int BLOCKS_MAX = 100;
     private int blocks_wild = 0, days_active, job_cooldown;   //there is a maximum of how many blocks you're allowed to break and place in the wilderness
@@ -32,7 +33,8 @@ public class CityPlayer {
         try {
             ResultSet rs = CitySystem.getDatabase().getCon().prepareStatement("SELECT * FROM tbl_players WHERE PLAYER_ID = '" + player.getUniqueId().toString() + "'").executeQuery();
             rs.next();
-
+            if (!rs.getString("HOME").equalsIgnoreCase("NONE"))
+                homePoint = Tools.getLocFromString(rs.getString("HOME"), CitySystem.getPlugin());
             //TODO: job
             FileConfiguration config = CitySystem.getPlugin().getConfig();
             if (!config.contains("active." + player.getUniqueId().toString()))
@@ -97,10 +99,6 @@ public class CityPlayer {
         return player;
     }
 
-    public Konto getKonto() {
-        return konto;
-    }
-
     public Job getJob() {
        return job;
     }
@@ -127,5 +125,22 @@ public class CityPlayer {
 
     public int getDaysActive() {
         return days_active;
+    }
+
+    public void setHomePoint(Location home) {
+       try {
+           CitySystem.getDatabase().execute("UPDATE tbl_players SET HOME = '" + Tools.locationToString(home) + "' WHERE PLAYER_ID = '" + this.player.getUniqueId() + "'");
+           this.homePoint = home;
+       } catch (Exception e) {
+           e.printStackTrace();
+       }
+    }
+
+    public Location getHomePoint() {
+       return homePoint;
+    }
+
+    public boolean hasHomePoint() {
+       return homePoint != null;
     }
 }

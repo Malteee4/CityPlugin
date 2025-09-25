@@ -14,6 +14,10 @@ public class MsgCommand implements CommandExecutor {
         if (args.length < 2) return false;
         String target = args[0];
         if (Bukkit.getPlayer(target) != null) {
+            if (Bukkit.getPlayer(target).equals(player)) {
+                player.sendMessage("§cYou can't write a private message to yourself!");
+                return false;
+            }
             Player receiver = Bukkit.getPlayer(target);
             if (!receiver.isOnline()) {
                 player.sendMessage("§cThis Player is offline!");
@@ -26,7 +30,8 @@ public class MsgCommand implements CommandExecutor {
                 else
                     message = message + args[i] + " ";
             }
-            receiver.sendMessage("§o" + player.getName() + " -> " + message);
+            receiver.sendMessage("§3§o" + player.getName() + " -> You - §7§o" + message);
+            player.sendMessage("§3§oYou -> " + receiver.getName() + " - §7§o" + message);
         }else {
             player.sendMessage("§cPlayer couldn't be found!");
         }

@@ -17,6 +17,7 @@ public class AreaCreator implements Listener {
         Player player = event.getPlayer();
         if (!player.getInventory().getItemInMainHand().getType().equals(Material.GOLDEN_HOE)) return;
         if (event.getAction().equals(Action.LEFT_CLICK_BLOCK) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+            event.setCancelled(true);
             CityPlayer cPlayer = CitySystem.getCityPlayer(player);
             cPlayer.setMarked(event.getClickedBlock().getLocation(), event.getAction().equals(Action.LEFT_CLICK_BLOCK) ? 0:1);
             player.sendMessage("§ePosition " + (event.getAction().equals(Action.LEFT_CLICK_BLOCK) ? "1":"2") + " has been marked!");
