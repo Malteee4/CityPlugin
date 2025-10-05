@@ -36,7 +36,6 @@ public class CitySystem extends JavaPlugin {
     private static CityManager cm;
 
     private static HashSet<CityPlayer> players = new HashSet<>();
-    private static HashSet<City> cities = new HashSet<>();
 
     public static World spawnWorld = Bukkit.getWorld("world");
     public static World mainWorld = Bukkit.getWorld("mainWorld");
@@ -89,7 +88,7 @@ public class CitySystem extends JavaPlugin {
         }
 
         try {
-            ResultSet rs = db.getCon().prepareStatement("SELECT VALUE FROM tbl_properties WHERE CODE='worldspawn'").executeQuery();
+            ResultSet rs = db.getResult("SELECT VALUE FROM tbl_properties WHERE CODE='worldspawn'");
             while (rs.next()) {
                 String loc = rs.getString("VALUE");
                 WorldSpawnCommand.worldSpawn.put(spawnWorld, Tools.getLocFromString(loc, this));
@@ -103,9 +102,20 @@ public class CitySystem extends JavaPlugin {
         Bukkit.getScheduler().scheduleSyncDelayedTask(this, () -> {
             mainWorld = Bukkit.getWorld("mainWorld");
             farmWorld = Bukkit.getWorld("farmWorld");
+            try {
+                ResultSet rs = db.getResult("SELECT VALUE FROM tbl_properties WHERE CODE='mainspawn'");
+                while (rs.next()) {
+                    String loc = rs.getString("VALUE");
+                    WorldSpawnCommand.worldSpawn.put(mainWorld, Tools.getLocFromString(loc, this));
+                }
+                rs.close();
+            }catch (Exception exception) {
+                exception.printStackTrace();
+            }
         }, 160);
 
-        new Border(new Location(mainWorld, -520, 100, -1000), 18100);
+        //new Border(new Location(mainWorld, -520, 100, -1000), 18100);
+        mainWorld.getWorldBorder().reset();
         new Border(new Location(farmWorld, 0, 100, 0), 2400);
         new Border(new Location(spawnWorld, 600, 100, 1700), 2500);
         new Timer();
@@ -118,6 +128,7 @@ public class CitySystem extends JavaPlugin {
     public void onDisable() {
         for (CityPlayer player : players)
             removePlayer(player);
+        mm.safeMoney();
         db.disconnect();
     }
 
@@ -149,7 +160,6 @@ public class CitySystem extends JavaPlugin {
     public static void loadPlayer(Player player) {
         CityPlayer cityPlayer = new CityPlayer(player);
         players.add(cityPlayer);
-        Bukkit.broadcastMessage("test");
     }
 
     public static void addPlayer(CityPlayer player) {
@@ -172,6 +182,10 @@ public class CitySystem extends JavaPlugin {
     public static MoneyManager getMm() {
         return mm;
     }
+
+    public static CityManager getCm() {return cm;}
+
+    public static PlotManager getPm() {return pm;}
 
     public static Set<CityPlayer> getCityPlayers() {
         return players;

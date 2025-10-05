@@ -13,7 +13,7 @@ public class SuperiorArea extends Area {
     private ArrayList<Area> areas = new ArrayList<>();
 
     public SuperiorArea(Location loc1, Location loc2) {
-        super(loc1, loc2, AreaType.SUPERIOR);
+        super(loc1, loc2, AreaType.SUPERIOR, null,false);
         try {
             CitySystem.getDatabase().execute("INSERT INTO tbl_superior_areas(AREA_ID, LOC1, LOC2) VALUES('" + super.id + "', '"
                     + Tools.locationToString(loc1) + "', '" + Tools.locationToString(loc2) + "')");
@@ -23,7 +23,7 @@ public class SuperiorArea extends Area {
     }
 
     public SuperiorArea(Location loc1, Location loc2, String id) {
-        super(loc1, loc2, AreaType.SUPERIOR);
+        super(loc1, loc2, AreaType.SUPERIOR, null, false);
     }
 
     public void addArea(Area area) {

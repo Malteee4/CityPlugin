@@ -8,21 +8,29 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Timer {
 
-    public static int day = LocalDate.now().getDayOfMonth();
     public static final int MOT_MAX = 300;
 
     public Timer() {
         Bukkit.getScheduler().scheduleSyncRepeatingTask(CitySystem.getPlugin(), () -> {
             boolean reset = false;
-            if (LocalDate.now().getDayOfMonth() != day) {
-                day = LocalDate.now().getDayOfMonth();
-                FileConfiguration config = CitySystem.getPlugin().getConfig();
+            FileConfiguration config = CitySystem.getPlugin().getConfig();
+            String day = LocalDate.now().getDayOfMonth() + "." + LocalDate.now().getMonth().getValue();
+            if (!config.contains("last_day_saved")) config.set("last_day_saved", day);
+            if (!config.getString("last_day_saved").equalsIgnoreCase(day)) {
+                reset = true;
+                List<String> login = config.getStringList("login_today");
+                for (String str : config.getStringList("active")) {
+                    if (!login.contains(str))
+                        config.set("active." + str, (int) (Math.sqrt(4 * config.getInt("active." + str)) - 1));
+                }
                 config.set("login_today", new ArrayList<>());
-                for (String uuid : config.getStringList("job_cooldown"))
-                    config.set("job_cooldown." + uuid, Math.max(config.getInt("job_cooldown." + uuid) - 1, 0));
+                config.set("last_day_saved", day);
+                /*for (String uuid : config.getStringList("job_cooldown"))
+                    config.set("job_cooldown." + uuid, Math.max(config.getInt("job_cooldown." + uuid) - 1, 0));*/
                 CitySystem.getPlugin().saveConfig();
                 reset = true;
             }

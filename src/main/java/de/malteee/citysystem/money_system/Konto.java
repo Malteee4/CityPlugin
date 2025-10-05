@@ -58,18 +58,6 @@ public class Konto {
     }
 
     public void removeMoney(double i) {
-
-    }
-
-    public void transfer(CityPlayer sender, double i) {
-        
-    }
-
-    public void save()  {
-
-    }
-
-    public void transfer(Konto receiver) {
-
+        this.money -= i;
     }
 }

@@ -35,14 +35,20 @@ public class AreaChecker implements Listener {
         try {
             ResultSet rs = CitySystem.getDatabase().getResult("SELECT * FROM tbl_areas");
             while (rs.next()) {
-                areas.add(new Area(Tools.getLocFromString(rs.getString("LOC1"), CitySystem.getPlugin()), Tools.getLocFromString("LOC2", CitySystem.getPlugin()),
-                        Area.AreaType.valueOf(rs.getString("TYPE"))));
-                rs.close();
-            }
+                areas.add(new Area(Tools.getLocFromString(rs.getString("LOC1"), CitySystem.getPlugin()), Tools.getLocFromString(rs.getString("LOC2"), CitySystem.getPlugin()),
+                        Area.AreaType.valueOf(rs.getString("TYPE")), getSuperiorByID(rs.getString("SUPERIOR")), false));
+            }rs.close();
         }catch (Exception exception) {
             exception.printStackTrace();
         }
         startChecking();
+    }
+
+    private static SuperiorArea getSuperiorByID(String id) {
+        for (SuperiorArea area : superiorAreas) {
+            if (area.getId().equalsIgnoreCase(id))
+                return area;
+        }return null;
     }
 
     private static void initializeSuperiorAreas(Location start, int size, int rowCount) {
@@ -77,21 +83,37 @@ public class AreaChecker implements Listener {
                         empty = false;
                     }
                 }if (!empty) {
-                    for (Area a : area.getAreas()) {
-                        for (CityPlayer pl : possible) {
+                    for (CityPlayer pl : possible) {
+                        boolean inArea = false;
+                        for (Area a : area.getAreas()) {
                             if (a.isPlayerIn(pl.toPlayer())) {
+                                inArea = true;
+                                if (pl.getCurrentArea() != null)
+                                    if (pl.getCurrentArea().equals(a)) continue;
+                                if (a.getType().equals(Area.AreaType.SPAWN))
+                                    pl.toPlayer().sendMessage("§aYou've entered a spawn area!");
+                                pl.setCurrentArea(a);
                                 //TODO: check area type
                                 //if on plot -> set as current area
                                 //else if in city -> set city area as current area
                                 //if in wilderness -> set current area as null
                             }
-                        }
+                        }if (!inArea) pl.setCurrentArea(null);
                     }
                 }
             }
         }, 0, 8);
     }
 
+    public static Area getAreaByLocation(Location location) {
+
+        return null;
+    }
+
+    public static SuperiorArea getSuperiorByLocation(Location location) {
+
+        return null;
+    }
     /*@EventHandler
     public void handlePlayerMove(PlayerMoveEvent event) {
         Player player = event.getPlayer();

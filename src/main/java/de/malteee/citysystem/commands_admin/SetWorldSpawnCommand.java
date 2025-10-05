@@ -17,7 +17,7 @@ public class SetWorldSpawnCommand implements CommandExecutor {
         if(!(player.hasPermission("citysystem.setspawn"))) return false;
         String location = Tools.locationToString(player.getLocation());
         try {
-            if (WorldSpawnCommand.worldSpawn == null) {
+            if (WorldSpawnCommand.worldSpawn.containsKey(player.getWorld())) {
                 CitySystem.getDatabase().execute("INSERT INTO tbl_properties(CODE, VALUE) VALUES('worldspawn', '" + location + "')");
             }else {
                 CitySystem.getDatabase().execute("UPDATE tbl_properties SET VALUE='" + location + "'");

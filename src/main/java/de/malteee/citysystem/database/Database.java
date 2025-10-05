@@ -27,8 +27,9 @@ public class Database {
 
             //con.prepareStatement(CREATE TABLE IF NOT EXISTS tbl_plot()).execute();
             //con.prepareStatement(CREATE TABLE IF NOT EXISTS tbl_gs()).execute();
-            //con.prepareStatement(CREATE TABLE IF NOT EXISTS tbl_city(CITY_ID varchar(30), WELCOME varchar(100), SPAWN varchar(30), PLAYER_ID varchar(40), DAYS_ACTIVE int, PUBLIC_SPAWN bool, BUILD_RIGHT varchar(300))).execute();
-            //con.prepareStatement(CREATE TABLE IF NOT EXISTS tbl_city_areas(AREA_ID varchar(20), CITY_ID varchar(30))).execute();
+            con.prepareStatement("CREATE TABLE IF NOT EXISTS tbl_city(CITY_ID varchar(30), WELCOME_MSG varchar(100), GOODBYE_MSG varchar(100), SPAWN varchar(30), "
+              + "PLAYER_ID varchar(40), DAYS_ACTIVE int, PUBLIC_SPAWN bool, BUILD_RIGHT varchar(300), EXPANSION varchar(50))").execute();
+            con.prepareStatement("CREATE TABLE IF NOT EXISTS tbl_city_areas(AREA_ID varchar(20), CITY_ID varchar(30))").execute();
 
             try {
                 Thread.sleep(200);

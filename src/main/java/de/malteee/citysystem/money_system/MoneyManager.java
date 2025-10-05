@@ -25,20 +25,22 @@ public class MoneyManager {
             }catch (Exception exception) {
                 exception.printStackTrace();
             }
-        }
+        }saveScheduler();
     }
 
     public void saveScheduler() {
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(CitySystem.getPlugin(), () -> {
-            try {
-                Database db = CitySystem.getDatabase();
-                konten.entrySet().forEach(entry -> {
-                    db.execute("UPDATE tbl_players SET MONEY=" + entry.getValue().getMoney() + " WHERE UUID='" + entry.getKey().toString() + "'");
-                });
-            }catch (Exception exception) {
-                exception.printStackTrace();
-            }
-        }, 0, 20 * 30);
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(CitySystem.getPlugin(), this::safeMoney, 0, 20 * 30);
+    }
+
+    public void safeMoney() {
+        try {
+            Database db = CitySystem.getDatabase();
+            konten.entrySet().forEach(entry -> {
+                db.execute("UPDATE tbl_players SET MONEY=" + entry.getValue().getMoney() + " WHERE PLAYER_ID='" + entry.getKey().toString() + "'");
+            });
+        }catch (Exception exception) {
+            exception.printStackTrace();
+        }
     }
 
     public void createKonto(CityPlayer player) {
@@ -54,9 +56,9 @@ public class MoneyManager {
     }
 
     public Konto getKonto(String name) {
-        for (CityPlayer cPlayer : CitySystem.getCityPlayers()) {
-            if (cPlayer.toPlayer().getName().equalsIgnoreCase(name))
-                return konten.get(cPlayer);
+        for (OfflinePlayer player : Bukkit.getOfflinePlayers()) {
+            if (player.getName().equalsIgnoreCase(name))
+                return konten.get(player.getUniqueId());
         }
         return null;
     }
