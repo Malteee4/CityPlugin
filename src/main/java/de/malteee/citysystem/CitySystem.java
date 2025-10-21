@@ -12,6 +12,7 @@ import de.malteee.citysystem.commands_general.*;
 import de.malteee.citysystem.core.*;
 import de.malteee.citysystem.database.Database;
 import de.malteee.citysystem.money_system.MoneyManager;
+import de.malteee.citysystem.plots.PlotManager;
 import de.malteee.citysystem.utilities.*;
 import de.malteee.citysystem.chat.PlayerChatListener;
 import de.malteee.citysystem.world_managing.*;
@@ -75,6 +76,7 @@ public class CitySystem extends JavaPlugin {
         getCommand("setMainSpawn").setExecutor(new SetMainWorldSpawnCommand());
         getCommand("tutorial").setExecutor(new TutorialCommand());
         getCommand("database").setExecutor(new DatabaseCommand());
+        getCommand("mot").setExecutor(new MotCommand());
 
         for(int i = 0; i < maps.size(); i++) {
             if (maps.get(i).equalsIgnoreCase("mainWorld")) {
@@ -115,9 +117,10 @@ public class CitySystem extends JavaPlugin {
         }, 160);
 
         //new Border(new Location(mainWorld, -520, 100, -1000), 18100);
-        mainWorld.getWorldBorder().reset();
+        //mainWorld.getWorldBorder().reset();
         new Border(new Location(farmWorld, 0, 100, 0), 2400);
-        new Border(new Location(spawnWorld, 600, 100, 1700), 2500);
+        //new Border(new Location(spawnWorld, 600, 100, 1700), 2500);
+        //spawnWorld.getWorldBorder().reset();
         new Timer();
         new MessageBroadcaster();
         mm = new MoneyManager();

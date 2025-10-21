@@ -1,7 +1,5 @@
 package de.malteee.citysystem.area;
 
-import de.malteee.citysystem.core.City;
-import de.malteee.citysystem.core.Plot;
 import org.bukkit.Location;
 
 public class TeleportArea extends Area {

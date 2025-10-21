@@ -22,6 +22,8 @@ public class CityManager {
         }
     }
 
+
+
     public ArrayList<City> getCities() {
         return cities;
     }

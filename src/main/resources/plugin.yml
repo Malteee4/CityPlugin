@@ -39,3 +39,5 @@ commands:
     description: brings you to the tutorial
   database:
     description: admin use only
+  mot:
+    description: shows you how much money you earned today by playing

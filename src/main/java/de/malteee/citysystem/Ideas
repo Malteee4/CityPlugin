@@ -1,0 +1,21 @@
+- countries:
+	- Ein Spieler(mit mindestens einer Stadt) kann ein "country" gründen und andere Städte einladen -> Zusammenschluss von Städten
+	- bonus effects
+		- shared plot amount
+		- shared value
+		- general spawn point
+- something like power and water supply for cities -> can be traded inside of a country
+- environment/green score:
+	- capture number of leaves(and other blocks)
+	- minus number of furnaces(and other blocks)
+	-> score
+	- bonus effects for positive score (speed, haste, ...)
+	- negative effects for negative score (slow, foggy view, ...)
+	- only city wide
+	- capture -> block place, tree grow, block break
+
+- time checking
+	- scheduler -> every 60 seconds
+	- safe current date
+	- check date with last saved date -> difference? -> start new day
+- hotels!

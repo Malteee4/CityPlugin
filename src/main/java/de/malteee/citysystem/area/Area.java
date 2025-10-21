@@ -2,9 +2,8 @@ package de.malteee.citysystem.area;
 
 import de.malteee.citysystem.CitySystem;
 import de.malteee.citysystem.core.City;
-import de.malteee.citysystem.core.Plot;
+import de.malteee.citysystem.plots.Plot;
 import de.malteee.citysystem.utilities.Tools;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -97,6 +96,10 @@ public class Area implements Listener {
 
     public City getCity() {
         return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
     }
 
     public Plot getPlot() {

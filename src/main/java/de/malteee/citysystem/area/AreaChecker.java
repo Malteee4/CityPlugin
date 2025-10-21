@@ -14,6 +14,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Optional;
 
 public class AreaChecker implements Listener {
 
@@ -106,8 +107,13 @@ public class AreaChecker implements Listener {
     }
 
     public static Area getAreaByLocation(Location location) {
+        Optional<Area> area = areas.stream().filter(a -> a.partOf(location)).findFirst();
+        return area.orElse(null);
+    }
 
-        return null;
+    public static Area getAreaByID(String id) {
+        Optional<Area> area = areas.stream().filter(a -> a.id.equalsIgnoreCase(id)).findFirst();
+        return area.orElse(null);
     }
 
     public static SuperiorArea getSuperiorByLocation(Location location) {

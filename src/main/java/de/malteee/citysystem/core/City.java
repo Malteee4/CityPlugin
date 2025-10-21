@@ -2,6 +2,9 @@ package de.malteee.citysystem.core;
 
 import de.malteee.citysystem.CitySystem;
 import de.malteee.citysystem.area.Area;
+import de.malteee.citysystem.area.AreaChecker;
+import de.malteee.citysystem.plots.Residential;
+import de.malteee.citysystem.plots.Shop;
 import de.malteee.citysystem.utilities.Tools;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -28,6 +31,8 @@ public class City implements Listener {
     private boolean active = true, publicSpawn = false;
     private Location spawnpoint;
 
+    private Stage stage;
+
     public City(String name, Player owner, Area area, Location position) {
         try {
             CitySystem.getDatabase().execute("INSERT INTO tbl_city(CITY_ID, WELCOME_MSG, GOODBYE_MSG, SPAWN, PLAYER_ID, DAYS_ACTIVE, PUBLIC_SPAWN, BUILD_RIGHT, EXPANSION) VALUES(" +
@@ -35,10 +40,12 @@ public class City implements Listener {
             CitySystem.getDatabase().execute("INSERT INTO tbl_city_areas(CITY_ID, AREA_ID) VALUES('" + name + "', '" + area.getId() + "')");
             daysActive = 1;
             areas.add(area);
+            area.setCity(this);
             this.owner = owner;
             this.name = name;
             this.welcome = "§7You've entered a city!";
             this.spawnpoint = position;
+            this.stage = Stage.SETTLEMENT;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -57,9 +64,12 @@ public class City implements Listener {
             }rs.close();
             rs = CitySystem.getDatabase().getCon().prepareStatement("SELECT * FROM tbl_city_areas WHERE CITY_ID = '" + id + "'").executeQuery();
             while (rs.next()) {
-                //TODO
+                Area area = AreaChecker.getAreaByID(rs.getString("AREA_ID"));
+                if (area != null)
+                    this.areas.add(area);
             }
             rs.close();
+
             this.name = id;
         }catch (Exception exception) {
             exception.printStackTrace();
@@ -112,5 +122,19 @@ public class City implements Listener {
 
         }
 
+    }
+
+    enum Stage {
+
+        SETTLEMENT(2, 0, 0),
+        VILLAGE(4, 1, 0),
+        SMALL_TOWN(8, 4, 1),
+        CITY(15, 8, 2),
+        BIG_CITY(20, 10, 2),
+        METROPOLIS(28, 14, 4);
+
+        Stage(int residential, int shops, int farms) {
+
+        }
     }
 }

@@ -1,6 +1,7 @@
-package de.malteee.citysystem.core;
+package de.malteee.citysystem.plots;
 
 import de.malteee.citysystem.area.Area;
+import de.malteee.citysystem.core.City;
 import org.bukkit.entity.Player;
 
 import java.util.List;

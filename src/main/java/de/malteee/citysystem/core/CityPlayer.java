@@ -3,14 +3,13 @@ package de.malteee.citysystem.core;
 import de.malteee.citysystem.CitySystem;
 import de.malteee.citysystem.area.SuperiorArea;
 import de.malteee.citysystem.jobs.Job;
-import de.malteee.citysystem.money_system.Konto;
 import de.malteee.citysystem.area.Area;
+import de.malteee.citysystem.plots.Residential;
 import de.malteee.citysystem.utilities.Tools;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
-import java.io.File;
 import java.sql.ResultSet;
 
 public class CityPlayer {
