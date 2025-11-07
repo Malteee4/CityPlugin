@@ -41,6 +41,9 @@ public class CityCommand implements CommandExecutor {
             case "extensions" -> {
 
             }
+            case "extension" -> {
+
+            }
             case "list" -> {
 
             }

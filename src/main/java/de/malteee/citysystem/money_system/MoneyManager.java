@@ -2,13 +2,12 @@ package de.malteee.citysystem.money_system;
 
 import de.malteee.citysystem.CitySystem;
 import de.malteee.citysystem.core.CityPlayer;
-import de.malteee.citysystem.database.Database;
+import de.malteee.citysystem.core.Database;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
 import java.sql.ResultSet;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.UUID;
 
 public class MoneyManager {

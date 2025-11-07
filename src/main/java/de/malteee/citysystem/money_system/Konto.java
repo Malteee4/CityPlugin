@@ -1,12 +1,6 @@
 package de.malteee.citysystem.money_system;
 
-import de.malteee.citysystem.CitySystem;
 import de.malteee.citysystem.core.CityPlayer;
-import de.malteee.citysystem.database.Database;
-import org.bukkit.Bukkit;
-
-import java.time.LocalDate;
-import java.util.Date;
 
 public class Konto {
 

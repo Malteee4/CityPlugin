@@ -65,8 +65,10 @@ public class City implements Listener {
             rs = CitySystem.getDatabase().getCon().prepareStatement("SELECT * FROM tbl_city_areas WHERE CITY_ID = '" + id + "'").executeQuery();
             while (rs.next()) {
                 Area area = AreaChecker.getAreaByID(rs.getString("AREA_ID"));
-                if (area != null)
+                if (area != null) {
+                    area.setCity(this);
                     this.areas.add(area);
+                }
             }
             rs.close();
 
@@ -95,6 +97,10 @@ public class City implements Listener {
 
     public String getWelcomeMessage() {
         return welcome;
+    }
+
+    public String getGoodbyeMessage() {
+        return goodbye;
     }
 
     public Location getSpawn() {

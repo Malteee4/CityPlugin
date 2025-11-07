@@ -89,17 +89,34 @@ public class AreaChecker implements Listener {
                         for (Area a : area.getAreas()) {
                             if (a.isPlayerIn(pl.toPlayer())) {
                                 inArea = true;
-                                if (pl.getCurrentArea() != null)
-                                    if (pl.getCurrentArea().equals(a)) continue;
+                                Area old = pl.getCurrentArea();
+                                if (old != null)
+                                    if (old.equals(a)) continue;
                                 if (a.getType().equals(Area.AreaType.SPAWN))
                                     pl.toPlayer().sendMessage("§aYou've entered a spawn area!");
+                                if (a.getType().equals(Area.AreaType.CITY)) {
+                                    City entered = a.getCity();
+                                    if (old == null) {
+                                        pl.toPlayer().sendMessage(entered.getWelcomeMessage());
+                                    }
+                                    if (old.getType().equals(Area.AreaType.CITY)) {
+                                        City oldCity = old.getCity();
+                                        if (oldCity.equals(entered))
+                                            continue;
+                                        pl.toPlayer().sendMessage(oldCity.getGoodbyeMessage());
+                                        pl.toPlayer().sendMessage(entered.getWelcomeMessage());
+                                    }
+                                }
                                 pl.setCurrentArea(a);
-                                //TODO: check area type
-                                //if on plot -> set as current area
-                                //else if in city -> set city area as current area
-                                //if in wilderness -> set current area as null
                             }
-                        }if (!inArea) pl.setCurrentArea(null);
+                        }if (!inArea) {
+                            if (pl.getCurrentArea() != null) {
+                                if (pl.getCurrentArea().getType().equals(Area.AreaType.CITY)) {
+                                    pl.toPlayer().sendMessage(pl.getCurrentArea().getCity().getGoodbyeMessage());
+                                }
+                            }
+                            pl.setCurrentArea(null);
+                        }
                     }
                 }
             }

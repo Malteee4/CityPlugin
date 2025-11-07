@@ -33,7 +33,7 @@ public class CityManager {
     }
 
     public void removeCity(City city) {
-
+        this.cities.remove(city);
     }
 
 

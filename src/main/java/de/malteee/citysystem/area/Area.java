@@ -128,6 +128,17 @@ public class Area implements Listener {
         Player player = event.getPlayer();
 
     }
+
+    public Location[] getCorners() {
+        Location[] locations = new Location[4];
+        World world = this.getLocOne().getWorld();
+        locations[0] = new Location(world, this.xMin, this.yMin, this.zMin);
+        locations[1] = new Location(world, this.xMin, this.yMax, this.zMin);
+        locations[2] = new Location(world, this.xMax, this.yMin, this.zMin);
+        locations[3] = new Location(world, this.xMax, this.yMax, this.zMin);
+        return locations;
+    }
+
     public enum AreaType {
         SUPERIOR,
         CITY,

@@ -1,7 +1,7 @@
 package de.malteee.citysystem.commands_admin;
 
 import de.malteee.citysystem.CitySystem;
-import de.malteee.citysystem.database.Database;
+import de.malteee.citysystem.core.Database;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

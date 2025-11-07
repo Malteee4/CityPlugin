@@ -10,7 +10,7 @@ import de.malteee.citysystem.commands_farming.FarmworldCommand;
 import de.malteee.citysystem.commands_general.WorldSpawnCommand;
 import de.malteee.citysystem.commands_general.*;
 import de.malteee.citysystem.core.*;
-import de.malteee.citysystem.database.Database;
+import de.malteee.citysystem.core.Database;
 import de.malteee.citysystem.money_system.MoneyManager;
 import de.malteee.citysystem.plots.PlotManager;
 import de.malteee.citysystem.utilities.*;
@@ -41,6 +41,8 @@ public class CitySystem extends JavaPlugin {
     public static World spawnWorld = Bukkit.getWorld("world");
     public static World mainWorld = Bukkit.getWorld("mainWorld");
     public static World farmWorld = Bukkit.getWorld("farmWorld");
+    //public static World netherWorld = Bukkit.getWorld("netherWorld");
+    //public static World endWorld = Bukkit.getWorld("endWorld");
 
     private List<String> maps = getConfig().getStringList("worlds");
 
