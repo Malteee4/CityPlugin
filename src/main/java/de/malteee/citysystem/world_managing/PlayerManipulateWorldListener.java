@@ -97,11 +97,14 @@ public class PlayerManipulateWorldListener implements Listener {
         }
         if (player.hasPermission("citysystem.unrestricted_building")) return;
         event.setCancelled(!isAllowedToManipulate(player, event.getBlock().getLocation()));
-        if (cPlayer.getBlocksInWilderness() == CityPlayer.BLOCKS_MAX) {
-            event.setCancelled(true);
-            player.sendMessage("§cYou can only break or place " + CityPlayer.BLOCKS_MAX + " blocks in the wilderness per day!");
-        }else {
-            cPlayer.setBlocksWilderness(cPlayer.getBlocksInWilderness() + 1);
+        if(cPlayer.toPlayer().getWorld().equals(CitySystem.mainWorld)) {
+            if (!cPlayer.isInWilderness()) return;
+            if (cPlayer.getBlocksInWilderness() == CityPlayer.BLOCKS_MAX) {
+                event.setCancelled(true);
+                player.sendMessage("§cYou can only break or place " + CityPlayer.BLOCKS_MAX + " blocks in the wilderness per day!");
+            }else {
+                cPlayer.setBlocksWilderness(cPlayer.getBlocksInWilderness() + 1);
+            }
         }
     }
 
